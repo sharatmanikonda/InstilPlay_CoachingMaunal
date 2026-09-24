@@ -318,14 +318,9 @@
   .quest .qbar i{display:block;height:100%;background:var(--green);transition:width .5s}
   .quest.done b{color:var(--green)}
   .quest small{font-family:var(--mono);font-size:11.5px;color:var(--ink-faint)}
-  .kstep{grid-template-columns:46px 1fr 34px;align-items:start}
   .tick{width:32px;height:32px;border-radius:50%;border:1.5px solid var(--border-strong);background:var(--surface);display:grid;place-items:center;padding:0;color:transparent}
   .tick[aria-pressed="true"]{background:var(--green);border-color:var(--green);color:#fff;animation:pop .35s cubic-bezier(.2,1.5,.4,1)}
-  .clips{display:flex;flex-wrap:wrap;gap:6px;margin-top:6px}
-  .watch{display:inline-flex;align-items:center;gap:5px;border:1px solid var(--border-strong);background:var(--surface);border-radius:999px;padding:4px 10px 4px 7px;font-size:12px;font-weight:600;color:var(--ink)}
   .watch.seen{border-color:var(--green);color:var(--green);background:var(--green-soft)}
-  .watch svg{width:14px;height:14px}
-  .cue .watch{align-self:flex-start;margin-top:4px}
 
   .toasts{position:fixed;left:50%;transform:translateX(-50%);bottom:calc(88px + env(safe-area-inset-bottom,0px));z-index:50;display:flex;flex-direction:column;align-items:center;gap:6px;pointer-events:none;width:min(440px,100%)}
   .toast{background:var(--ink);color:var(--paper);padding:8px 16px;border-radius:999px;font-weight:600;font-size:14px;animation:toast 1.7s ease forwards;display:flex;gap:6px;align-items:center;box-shadow:var(--shadow)}
@@ -333,8 +328,6 @@
   .toast.bt{animation-duration:2.8s;background:var(--gold);color:#1B2621}
   @keyframes toast{0%{opacity:0;transform:translateY(14px) scale(.9)}12%{opacity:1;transform:none}80%{opacity:1;transform:translateY(-6px)}100%{opacity:0;transform:translateY(-24px)}}
   @keyframes pop{from{transform:scale(.5);opacity:0}}
-  @keyframes fade{from{opacity:0}}
-  @keyframes up{from{transform:translateY(40px);opacity:0}}
   @keyframes fall{to{transform:translateY(460px) rotate(600deg);opacity:0}}
   @keyframes pulse{0%{transform:scale(1);opacity:.55}100%{transform:scale(1.9);opacity:0}}
   .overlay{position:fixed;inset:0;z-index:60;background:rgba(10,16,13,.55);display:grid;place-items:center;padding:16px;animation:fade .25s}
@@ -343,10 +336,6 @@
   .lvlup h3{font-family:var(--display);font-size:28px;margin:0;line-height:1.1}
   .lvlup p{margin:0 0 6px;color:var(--ink-soft);font-size:14px}
   .confetti i{position:absolute;top:-14px;width:8px;height:12px;border-radius:2px;animation:fall 1.9s ease-in forwards}
-  .sheet-wrap{position:fixed;inset:0;z-index:55;background:rgba(10,16,13,.5);display:flex;align-items:flex-end;justify-content:center;animation:fade .2s}
-  .sheet{background:var(--paper);width:min(440px,100%);border-radius:20px 20px 0 0;padding:10px 16px calc(18px + env(safe-area-inset-bottom,0px));display:flex;flex-direction:column;gap:12px;animation:up .3s cubic-bezier(.2,.8,.2,1);max-height:92%;overflow:auto}
-  .grab{width:40px;height:4px;border-radius:9px;background:var(--border-strong);margin:0 auto 4px}
-  .sheet-head{display:flex;justify-content:space-between;align-items:center;gap:10px}
 
   .shelf{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
   .bdg{background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:12px 6px 10px;text-align:center;display:flex;flex-direction:column;align-items:center;gap:5px}
@@ -362,16 +351,100 @@
   .lb-row .rk{font-family:var(--mono);color:var(--ink-faint);font-size:13px}
   .lb-row .av{width:30px;height:30px;border-radius:50%;display:grid;place-items:center;font-size:12px;font-weight:700;color:#fff}
   .lb-row .nm{font-weight:600;font-size:14px}
-  .chips{display:flex;gap:6px;overflow-x:auto;padding-bottom:4px}
-  .chip{border:1px solid var(--border-strong);background:var(--surface);border-radius:999px;padding:6px 12px;font-size:13px;font-weight:600;white-space:nowrap;display:inline-flex;gap:6px;align-items:center}
-  .chip[aria-pressed="true"]{background:var(--ink);color:var(--paper);border-color:var(--ink)}
-  .chip .dotc{width:7px;height:7px;border-radius:50%;background:var(--green)}
   .journey svg{width:100%;height:auto;display:block}
   .jnode{cursor:pointer}
   .jnode:focus-visible{outline:none}
   .jnode:focus-visible circle.face{stroke:var(--red);stroke-width:3}
   .pulse{animation:pulse 1.6s ease-out infinite;transform-origin:center;transform-box:fill-box}
   .jlbl{font:600 10.5px var(--sans);fill:var(--ink-faint)}
+
+  /* 4-tab nav override */
+  .nav.n4{grid-template-columns:repeat(4,1fr)}
+  .nav.n4 button{font-size:10.5px}
+
+  /* citation chips (used in coach cards, program, library) */
+  .cites{display:flex;flex-wrap:wrap;gap:5px;margin-top:2px}
+  .cite{display:inline-flex;align-items:center;gap:4px;font:600 10.5px var(--mono);padding:2px 7px;border-radius:5px;background:var(--surface-2);color:var(--ink-soft);letter-spacing:.02em;text-transform:uppercase;white-space:nowrap}
+  .cite::before{content:"";width:5px;height:5px;border-radius:50%;background:var(--blue)}
+
+  /* academy: session view */
+  .clips{display:flex;flex-wrap:wrap;gap:6px;margin-top:6px}
+  .watch{display:inline-flex;align-items:center;gap:5px;border:1px solid var(--border-strong);background:var(--surface);border-radius:999px;padding:4px 10px 4px 7px;font-size:12px;font-weight:600;color:var(--ink);cursor:pointer}
+  .watch svg{width:14px;height:14px}
+  .cue .watch{align-self:flex-start;margin-top:4px}
+  .kstep{grid-template-columns:46px 1fr;align-items:start}
+
+  /* clip sheet */
+  @keyframes fade{from{opacity:0}}
+  @keyframes up{from{transform:translateY(40px);opacity:0}}
+  .sheet-wrap{position:fixed;inset:0;z-index:55;background:rgba(10,16,13,.5);display:flex;align-items:flex-end;justify-content:center;animation:fade .2s}
+  .sheet{background:var(--paper);width:min(440px,100%);border-radius:20px 20px 0 0;padding:10px 16px calc(18px + env(safe-area-inset-bottom,0px));display:flex;flex-direction:column;gap:12px;animation:up .3s cubic-bezier(.2,.8,.2,1);max-height:92%;overflow:auto}
+  .grab{width:40px;height:4px;border-radius:9px;background:var(--border-strong);margin:0 auto 4px}
+  .sheet-head{display:flex;justify-content:space-between;align-items:center;gap:10px}
+
+  /* drill library */
+  .chips{display:flex;gap:6px;overflow-x:auto;padding-bottom:4px;margin-inline:-16px;padding-inline:16px}
+  .chip{border:1px solid var(--border-strong);background:var(--surface);border-radius:999px;padding:6px 12px;font-size:13px;font-weight:600;white-space:nowrap;display:inline-flex;gap:6px;align-items:center;cursor:pointer}
+  .chip[aria-pressed="true"]{background:var(--ink);color:var(--paper);border-color:var(--ink)}
+  .chip.k-bat[aria-pressed="true"]{background:var(--red);border-color:var(--red)}
+  .chip.k-field[aria-pressed="true"]{background:var(--green);border-color:var(--green)}
+  .chip.k-warm[aria-pressed="true"]{background:var(--gold);border-color:var(--gold)}
+  .chip.k-game[aria-pressed="true"]{background:var(--blue);border-color:var(--blue)}
+  .lib-search{width:100%;border:1px solid var(--border-strong);background:var(--surface);border-radius:12px;padding:10px 12px;font-size:14px}
+  .lcard{background:var(--surface);border:1px solid var(--border);border-radius:14px;overflow:hidden}
+  .lcard>summary{padding:12px 14px;display:flex;justify-content:space-between;align-items:flex-start;gap:10px;cursor:pointer}
+  .lcard>summary::-webkit-details-marker{display:none}
+  .lcard[open]>summary{border-bottom:1px solid var(--border)}
+  .l-no{font-family:var(--mono);font-size:11.5px;color:var(--k,var(--ink-faint));font-weight:500;letter-spacing:.03em}
+  .l-name{font-family:var(--display);font-size:17px;font-weight:600;line-height:1.2;margin-top:2px}
+  .l-tags{display:flex;flex-wrap:wrap;gap:5px;margin-top:6px}
+  .l-tags span{font-size:11px;background:var(--surface-2);color:var(--ink-soft);padding:2px 7px;border-radius:5px;font-weight:500}
+  .l-body{padding:12px 14px 14px;display:flex;flex-direction:column;gap:14px;font-size:14px;line-height:1.55}
+  .l-sec{display:flex;flex-direction:column;gap:4px}
+  .l-sec ol,.l-sec ul{margin:0;padding-left:20px;display:flex;flex-direction:column;gap:4px}
+  .why{background:var(--gold-soft);border-radius:10px;padding:10px 12px;border-left:3px solid var(--gold)}
+  .why .lbl{color:var(--gold);margin-bottom:4px}
+  .fault{background:var(--red-soft);border-radius:10px;padding:10px 12px;border-left:3px solid var(--red)}
+  .fault .lbl{color:var(--red-ink);margin-bottom:4px}
+  .safe{background:var(--surface-2);border-radius:10px;padding:9px 12px;font-size:13px;display:flex;gap:8px;align-items:flex-start}
+  .safe svg{flex:none;margin-top:1px;color:var(--red-ink)}
+  .prog-row{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+  .prog-row div{background:var(--surface-2);border-radius:10px;padding:9px 11px;font-size:13px}
+  .prog-row .lbl{margin-bottom:3px}
+  .stack{display:flex;flex-direction:column;gap:10px}
+  .empty{padding:26px;text-align:center;color:var(--ink-faint);font-size:14px}
+
+  /* science callouts */
+  .science{background:var(--blue-soft);border-radius:12px;padding:12px 14px;border-left:3px solid var(--blue);font-size:13.5px;line-height:1.55}
+  .science .lbl{color:var(--blue);margin-bottom:4px}
+  .science b{font-weight:600}
+  .rationale{display:flex;flex-direction:column;gap:8px}
+
+  /* progress log */
+  .log-row{display:grid;grid-template-columns:1fr auto;gap:10px;align-items:center;padding:10px 0;border-top:1px solid var(--border);font-size:14px}
+  .log-row:first-child{border-top:0}
+  .log-row small{display:block;color:var(--ink-faint);font-size:12px}
+  .switch{width:44px;height:26px;border-radius:99px;background:var(--surface-2);border:1px solid var(--border);position:relative;cursor:pointer;padding:0;flex:none}
+  .switch::after{content:"";position:absolute;top:2px;left:2px;width:20px;height:20px;border-radius:50%;background:var(--surface);box-shadow:0 1px 2px rgba(0,0,0,.2);transition:transform .18s}
+  .switch[aria-pressed="true"]{background:var(--green);border-color:var(--green)}
+  .switch[aria-pressed="true"]::after{transform:translateX(18px)}
+
+  /* squad card */
+  .squad{background:var(--turf);color:var(--turf-ink);border-radius:16px;padding:16px;display:grid;grid-template-columns:1fr auto;gap:8px 16px;align-items:center}
+  .squad .eyebrow{color:var(--turf-faint)}
+  .squad h2{font-family:var(--display);font-size:20px;line-height:1.15;margin:2px 0 0;letter-spacing:-.01em}
+  .squad .meta{grid-column:1/-1;display:flex;flex-wrap:wrap;gap:12px;font-size:13px;color:var(--turf-faint);margin-top:6px;padding-top:10px;border-top:1px solid rgba(255,255,255,.14)}
+  .squad .meta b{color:var(--turf-ink);font-weight:600}
+  .squad .prg{display:flex;flex-direction:column;align-items:flex-end;gap:4px;font-size:11px;color:var(--turf-faint);letter-spacing:.07em;text-transform:uppercase;font-weight:600}
+  .squad .prg b{font-family:var(--display);font-size:22px;color:var(--turf-ink);font-weight:700}
+
+  /* focus panel */
+  .focus{background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:14px;display:flex;flex-direction:column;gap:10px}
+  .focus h3{font-family:var(--display);font-size:16px;margin:0;font-weight:600}
+  .focus-strand{display:grid;grid-template-columns:auto 1fr;gap:10px;align-items:flex-start;font-size:14px}
+  .focus-strand .badge-dot{width:32px;height:32px;border-radius:8px;background:var(--ks);color:var(--k);display:grid;place-items:center;flex:none;font-size:11px;font-weight:700;letter-spacing:.05em;text-transform:uppercase}
+  .focus-strand b{display:block;font-weight:600;font-size:14px}
+  .focus-strand small{display:block;color:var(--ink-faint);font-size:12.5px;margin-top:1px}
 </style>
 
 <div id="root"><div class="app"><div class="state">Loading the syllabus…</div></div></div>
@@ -447,6 +520,310 @@ const WEEKS = [
     days: ["Innings simulation", "Re-test: batting & fielding", "Mini-Tournament Finisher (102)"],
     milestone: "Re-test done and an IDP written for every player" },
 ];
+
+/* ------------------------------------------------------------------
+   SCIENTIFIC BASIS — sources cited across the program, and per-week
+   rationale (LTAD stage, trainability window, pedagogical approach,
+   why this content sits here in the periodised plan).
+------------------------------------------------------------------- */
+const SOURCES = {
+  ltad:    { s: "LTAD",             full: "Long-Term Athlete Development · Balyi, Way, Higgs (Sport for Life)" },
+  bcci:    { s: "BCCI/NCA",         full: "BCCI National Cricket Academy · age-group pathway (U14/U16/U19)" },
+  ecb:     { s: "ECB FBD",          full: "ECB Fast-Bowling Directives · age-based over limits and rest rules" },
+  tgfu:    { s: "TGfU",             full: "Teaching Games for Understanding · Bunker & Thorpe, Loughborough (1982)" },
+  cla:     { s: "CLA · Renshaw",    full: "Constraints-Led Approach · Renshaw, Davids, Newcombe, Roberts (2018)" },
+  ramp:    { s: "RAMP",             full: "RAMP warm-up (Raise, Activate, Mobilise, Potentiate) · Jeffreys (2007)" },
+  gabbett: { s: "ACWR",             full: "Acute:Chronic Workload Ratio · Gabbett (BJSM, 2016)" },
+  wulf:    { s: "Wulf",             full: "External focus of attention accelerates motor learning · Wulf (2013)" },
+  farrow:  { s: "Farrow & Baker",   full: "Developing Sport Expertise / Skill Acquisition in Sport (2013)" },
+  woolmer: { s: "Woolmer",          full: "The Art and Science of Cricket · Woolmer, Noakes & Moffett (2008)" },
+  elliott: { s: "Elliott UWA",      full: "Fast-bowling biomechanics; mixed-action injury risk · Elliott (UWA)" },
+  shea:    { s: "Contextual interference", full: "Random > blocked practice for retention · Shea & Morgan (1979)" },
+};
+const cite = keys => (keys || []).map(k => (SOURCES[k] || { s: k })).filter(Boolean);
+
+const WEEK_SCI = {
+  1: { ltad:"Learn to Train", window:"Skill", pedagogy:"Direct instruction + game-based finisher",
+       why:"Grip and stance are invariants that constrain every downstream shot. Groove them under low decision load so contact-point stability can build. This week is deliberately blocked practice: technique first, variability later (weeks 4–8).",
+       load:"Light. First week of the block; establish habit, not fatigue.",
+       srcs:["ltad","bcci","farrow"] },
+  2: { ltad:"Learn to Train", window:"Skill", pedagogy:"External-target task constraints (CLA)",
+       why:"Backlift is the pre-shot preparatory movement; its consistency correlates with contact-point stability. Using the 'V' as an external target lets the swing shape emerge without over-instructing the arms — external focus of attention accelerates motor learning.",
+       load:"Light-moderate. Introduce fielding volume.",
+       srcs:["cla","wulf","woolmer"] },
+  3: { ltad:"Learn to Train", window:"Skill", pedagogy:"Whole–part–whole; game-based scoring",
+       why:"Front-foot drive rewards a stable head-over-ball position — the same postural control the attacking pick-up requires. Practising them together transfers postural cues between disciplines.",
+       load:"Moderate.",
+       srcs:["tgfu","woolmer"] },
+  4: { ltad:"Learn to Train / Train to Train", window:"Skill + Speed",
+       pedagogy:"Constraints-led: force early length recognition by manipulating feeder cues",
+       why:"Length recognition is a perceptual skill and matures with variable practice, not repetition of a single length. Randomising ball length (contextual interference) hurts short-term performance but improves retention and transfer to matches.",
+       load:"Moderate.",
+       srcs:["cla","shea","farrow"] },
+  5: { ltad:"Train to Train", window:"Speed",
+       pedagogy:"TGfU: game shape drives decision-making",
+       why:"Running between wickets is a joint perception–action skill; call, respond, sprint. It sits with the Speed trainability window (peak trainability around PHV ±1 year for boys). Rehearse it inside real game shapes so decisions are practised, not just legs.",
+       load:"Moderate.",
+       srcs:["ltad","tgfu"] },
+  6: { ltad:"Train to Train", window:"Skill",
+       pedagogy:"Blocked → random progression within a session",
+       why:"Back-foot shots require early sighting and a still base; close catching demands the same visual tracking. Grouping them uses shared perceptual demand. Soft-ball first — reaction-catch training with a hard ball at this age raises knock-on injury risk without accelerating skill.",
+       load:"Moderate-heavy. Monitor ACWR (acute:chronic workload ratio) for any player already training elsewhere.",
+       srcs:["woolmer","gabbett"] },
+  7: { ltad:"Train to Train", window:"Skill + Tactical",
+       pedagogy:"Game-based coaching (TGfU) as the primary vehicle",
+       why:"Placement rewards shot selection over shot execution. Once the shot bank exists (weeks 1–6), games that reward gaps train the tactical layer — reading field, selecting shot, executing. This is where 'batter' becomes 'run-scorer'.",
+       load:"Heavy.",
+       srcs:["tgfu","bcci"] },
+  8: { ltad:"Train to Train", window:"Review",
+       pedagogy:"Re-test against benchmarks; write IDPs (Individual Development Plans)",
+       why:"Assessment against published age-group benchmarks (BCCI/NCA, ECB) turns 'improved' from opinion into evidence, and drives the individualisation of block 2.",
+       load:"Taper.",
+       srcs:["bcci","ecb","ltad"] },
+};
+
+const PROGRAM_SCI = {
+  headline: "Bat & Field Foundations sits in the pre-season / Learn-to-Train stage of a 26-week periodised plan.",
+  bullets: [
+    { t:"Periodisation model", v:"Block periodisation. Eight-week accumulation block on batting + fielding invariants, followed by intensification in blocks 2–3 and a taper/review block 4.", srcs:["ltad"] },
+    { t:"Pedagogical stance", v:"Whole–part–whole session structure. Direct instruction for invariants, constraints-led and TGfU for tactical layers. External-focus cues where a target can carry the cue.", srcs:["tgfu","cla","wulf"] },
+    { t:"Load management", v:"RAMP warm-up every session. Fast-bowling volume follows ECB Fast-Bowling Directives; overall load is tracked as acute:chronic workload ratio.", srcs:["ramp","ecb","gabbett"] },
+    { t:"Assessment", v:"Baseline in week 1, mid-check week 4, re-test week 8 against BCCI/NCA age-group benchmarks. Each player leaves with an Individual Development Plan.", srcs:["bcci"] },
+  ],
+};
+
+const CATS = { warm:{ label:"Warm-up", cls:"k-warm" }, bat:{ label:"Batting", cls:"k-bat" },
+  field:{ label:"Fielding", cls:"k-field" }, run:{ label:"Running", cls:"k-field" }, game:{ label:"Games", cls:"k-game" } };
+
+/* ------------------------------------------------------------------
+   DRILL LIBRARY — structured reference for the 8-week block. Each
+   drill has purpose, science, procedure, coaching points, common
+   faults, progressions, safety notes, sources, syllabus topics, and
+   (where authored) an embedded animation.
+------------------------------------------------------------------- */
+const DRILL_LIB = {
+  1:{ cat:"warm", age:"U8–U14", grp:"whole group", kit:"cones, bibs", dur:"5–8 min", anim:"tag",
+      purpose:"Raise heart rate and body temperature with a game shape kids want to play.",
+      science:"The 'Raise' phase of the RAMP protocol: general activation before sport-specific work reduces soft-tissue injury risk.", srcs:["ramp"],
+      topics:["ch8-t3","ch14-t4"] },
+  3:{ cat:"warm", age:"U10–U19", grp:"whole group", kit:"cones", dur:"5 min",
+      purpose:"Mobilise the joints cricket uses, from gentle to sharp.",
+      science:"The 'Mobilise' phase of RAMP moves joints through the ranges the sport will demand; static stretching before power output is contraindicated for adolescents.", srcs:["ramp"],
+      topics:["ch14-t4"] },
+  6:{ cat:"warm", age:"U8–U16", grp:"whole group", kit:"bats optional", dur:"4 min", anim:"shadow",
+      purpose:"Rehearse the day's movement patterns before ball pressure arrives.",
+      science:"'Potentiate' phase of RAMP: neuromuscular priming of the specific patterns to be trained; grooves motor programmes with no error cost.", srcs:["ramp","farrow"],
+      topics:["ch14-t4"] },
+  11:{ cat:"bat", age:"U8–U16", grp:"individual / pairs", kit:"bat", dur:"4 min", anim:"grip",
+      purpose:"Establish a repeatable grip: the invariant every future shot depends on.",
+      science:"Grip is a task constraint that shapes bat-face orientation throughout the swing. Locking the two-V alignment early removes a common non-informative source of variability in the batter's swing.", srcs:["cla","woolmer"],
+      topics:["ch9-t1"],
+      setup:"Each player with a correctly sized bat (handle at the hip when standing).",
+      steps:[
+        "Pick the bat up off the ground naturally — this usually finds a decent grip.",
+        "Check the two Vs (thumb–forefinger of each hand) point down the back edge, hands together.",
+        "Lift into a backlift and freeze; a partner or coach checks the face points at gully.",
+        "Repeat, releasing the bottom hand grip to 'light'.",
+      ],
+      coach:"V-alignment. Hands together. Light bottom hand. Fix this before anything else.",
+      faults:[
+        "Bottom-hand V rotated inside — closes the face, kills the drive along the ground.",
+        "Bottom-hand grip too tight — locks the wrist, forces a slog rather than a swing.",
+      ],
+      easier:"Coach places the hands.",
+      harder:"Eyes closed, then check.",
+      safety:"Bat handle sized to the player (handle reaches the hip when standing)." },
+  12:{ cat:"bat", age:"U8–U14", grp:"pairs", kit:"bat, soft balls", dur:"8 min", anim:"drive",
+      purpose:"Groove the front-foot drive with no bowler variability.",
+      science:"Removes the perceptual demand of bowler pace and length. Isolates the swing and stride so motor programme can stabilise before contextual interference is added in week 4.", srcs:["farrow","shea"],
+      topics:["ch9-t5"],
+      setup:"Batter in stance; feeder stands beside/in front holding a ball at waist height.",
+      steps:[
+        "Feeder drops the ball; batter steps forward and drives along the ground after one bounce.",
+        "Stationary first, then a small forward stride to the pitch.",
+        "10 reps, then swap roles.",
+      ],
+      coach:"Head over the ball. Straight bat. Along the ground.",
+      faults:[
+        "Head falling to leg side — bat swings across the line.",
+        "Bat coming down at an angle — ball squirts to point rather than mid-off.",
+      ],
+      easier:"Ball on a cone tee, no drop.",
+      harder:"Feeder drops to varying spots so the batter must move to it.",
+      safety:"Soft training ball only; helmet not required at this feed distance." },
+  13:{ cat:"bat", age:"U8–U16", grp:"individual / pairs", kit:"batting tee, bat, balls", dur:"8 min", anim:"tee",
+      purpose:"Build a repeatable shot shape at pressure-free reps.",
+      science:"Blocked practice on a stationary ball. Best used early in a session or block, before random/variable practice takes over.", srcs:["shea","woolmer"],
+      topics:["ch9-t5"],
+      setup:"Ball on a batting tee (or cone) at the right height for the shot practised.",
+      steps:[
+        "Set the tee full and straight for the drive; stride and hit down the ground.",
+        "Move the tee wider for the cover drive, shorter/higher for the cut.",
+        "Groove 8–10 of one shot, then change the tee position.",
+      ],
+      coach:"Full swing. Still head. Balanced finish.",
+      faults:["Reaching for the ball on a wide tee instead of moving the feet."],
+      easier:"Bigger / softer ball; lower tee.",
+      harder:"Coach calls the shot as the batter sets up.",
+      safety:"Space between tees so bats don't clash." },
+  14:{ cat:"bat", age:"U10–U19", grp:"pairs / small group", kit:"cones, bat, balls", dur:"10 min",
+      purpose:"External target that shapes the drive without over-instructing the technique.",
+      science:"External focus of attention (hit the gate) accelerates motor learning compared with an internal focus (keep your elbow high).", srcs:["wulf","cla"],
+      topics:["ch9-t5"],
+      setup:"Two cones down the ground forming a 'V' gate, 5–8 m in front of the batter.",
+      steps:[
+        "Feeder underarms / throws a full ball.",
+        "Batter drives to hit the ball through the gate along the ground.",
+        "Sets of 6; batters compete for the highest score.",
+      ],
+      coach:"Reward along-the-ground placement.",
+      faults:["Aerial drive through the gate — usually a hard bottom hand."],
+      easier:"Wider gate, closer feed.",
+      harder:"Narrow the gate; add a second gate for the cover drive." },
+  15:{ cat:"bat", age:"U10–U19", grp:"pairs", kit:"marked balls, bat", dur:"8 min",
+      purpose:"Train ball-watching under decision load.",
+      science:"Late-cue processing: the batter must fixate the ball long enough to read the colour/number, extending gaze-on-ball time.", srcs:["farrow"],
+      topics:["ch9-t2","ch9-t4"] },
+  16:{ cat:"bat", age:"U12–U19", grp:"pairs / net", kit:"balls, bat, helmet", dur:"10 min",
+      purpose:"Train length recognition and the front/back decision.",
+      science:"Contextual interference: randomising length hurts short-term hit rate but accelerates match transfer.", srcs:["shea","cla"],
+      topics:["ch9-t4"] },
+  17:{ cat:"bat", age:"U12–U19", grp:"pairs / net", kit:"balls, bat, helmet", dur:"8 min",
+      purpose:"Groove a straight defensive bat with no bat–pad gap.",
+      topics:["ch9-t5"] },
+  18:{ cat:"bat", age:"U12–U19", grp:"pairs / net", kit:"balls, bat, helmet", dur:"8 min",
+      purpose:"Punch off the back foot into a target zone; rewards a still head and late contact.",
+      topics:["ch9-t5"] },
+  19:{ cat:"bat", age:"U13–U19", grp:"pairs", kit:"balls, bat, helmet", dur:"8 min",
+      purpose:"Progressive introduction of the sweep, from knee-down shape to full stroke.",
+      science:"Introduced late in the block: the sweep loads the head and eyes differently and should be layered on a stable base.", srcs:["woolmer"],
+      topics:["ch9-t5"] },
+  20:{ cat:"bat", age:"U12–U19", grp:"small group", kit:"cones, bat, balls", dur:"12 min",
+      purpose:"Shot selection under scoring pressure — pick a gap, hit the gap.",
+      science:"Game-based coaching (TGfU): tactical demand precedes technical correction.", srcs:["tgfu"],
+      topics:["ch9-t5","ch16-t3"] },
+  21:{ cat:"run", age:"U10–U19", grp:"pairs + feeder", kit:"bat, balls, stumps", dur:"12 min",
+      purpose:"Trains the second run: pace, call, turn.",
+      topics:["ch9-t6"] },
+  22:{ cat:"bat", age:"U13–U19", grp:"net / small group", kit:"full kit, helmet", dur:"15 min",
+      purpose:"Bat to a scenario (chase / build / powerplay). Assessment tool for block review.",
+      science:"Representative learning design: practice conditions match match conditions to maximise transfer.", srcs:["cla","tgfu"],
+      topics:["ch9-t8","ch16-t3"] },
+  41:{ cat:"field", age:"U8–U19", grp:"pairs", kit:"1 ball", dur:"6 min", anim:"catch",
+      purpose:"Learn the reverse cup and the soft-hands 'give' for high catches.",
+      science:"The 'give' extends deceleration distance, reducing peak force on the fingers and improving retention of the ball.", srcs:["woolmer"],
+      topics:["ch12-t1"],
+      setup:"Pairs a few metres apart.",
+      steps:[
+        "Feeder lobs a high ball.",
+        "Catcher gets under it early: reverse cup, fingers up, little fingers together.",
+        "Watch it into the fingers and 'give' downward to cushion. 10 each, swap.",
+      ],
+      coach:"Under the ball early. Right cup. Soft give. Call 'mine!' loud and early.",
+      faults:[
+        "Hands cupped upwards (fingers down) — ball squeezes through.",
+        "Reaching, not moving the feet under it.",
+      ],
+      easier:"Lower, softer lobs.",
+      harder:"Higher / steeper feed; move the catcher so they must run under it.",
+      safety:"Soft ball for U8–U11." },
+  42:{ cat:"field", age:"U11–U19", grp:"pairs / threes", kit:"1 ball", dur:"6 min",
+      purpose:"Reaction catching flat and low.",
+      topics:["ch12-t1"] },
+  43:{ cat:"field", age:"U12–U19", grp:"group of 3–5", kit:"ball or slip cradle", dur:"8 min",
+      purpose:"Slip-cradle work: still hands, watch the edge.",
+      topics:["ch12-t1"] },
+  44:{ cat:"field", age:"U8–U16", grp:"pairs", kit:"1 ball", dur:"7 min", anim:"barrier",
+      purpose:"The safe first ground-fielding technique: body behind the line, knee down.",
+      science:"Task constraint (knee down) forces alignment behind the ball; alignment is the primary risk-reducer for miss-fields on wet or uneven outfields.", srcs:["cla"],
+      topics:["ch12-t2"],
+      setup:"Pairs 12–15 m apart on grass.",
+      steps:[
+        "Feeder rolls / hits firmly along the ground.",
+        "Fielder goes side-on, one knee down behind the line, hands together in front.",
+        "Gather, stand and return. 10 each.",
+      ],
+      coach:"Body behind the line. Knee-down barrier.",
+      faults:["Reaching sideways with the hands — leg-side gap opens up."],
+      easier:"Slower rolls, straight at them.",
+      harder:"Angle the ball so they move first, then set the barrier.",
+      safety:"Grass surface; avoid on hard indoor floors without knee pads." },
+  45:{ cat:"field", age:"U10–U19", grp:"pairs / small group", kit:"balls, stumps", dur:"8 min",
+      purpose:"Attack the ball, gather and throw in one motion — stops the single.",
+      topics:["ch12-t2","ch12-t3"] },
+  46:{ cat:"field", age:"U10–U19", grp:"pairs", kit:"1 stump, balls", dur:"8 min",
+      purpose:"Accuracy under repetition; the throw at a single stump.",
+      topics:["ch12-t3"] },
+  47:{ cat:"field", age:"U12–U19", grp:"pairs", kit:"balls", dur:"7 min",
+      purpose:"Long throw with a crow-hop for range and shoulder health.",
+      science:"Crow-hop uses the ground reaction force from the plant leg, sparing the shoulder for arm speed; a straight-leg throw shifts load into the rotator cuff.", srcs:["woolmer"],
+      topics:["ch12-t3"] },
+  48:{ cat:"field", age:"U11–U19", grp:"small group", kit:"balls, stumps", dur:"8 min",
+      purpose:"Chase, turn and throw — the boundary-save skill.",
+      topics:["ch12-t3"] },
+  49:{ cat:"field", age:"U13–U19", grp:"small group", kit:"balls", dur:"8 min",
+      purpose:"Slide-stop / boundary save.",
+      safety:"Grass only; long sleeves and long socks.",
+      topics:["ch12-t2"] },
+  50:{ cat:"field", age:"U11–U19", grp:"group of 4–6", kit:"balls, stumps both ends", dur:"10 min",
+      purpose:"Backing-up as a squad habit.",
+      topics:["ch12-t4"] },
+  51:{ cat:"field", age:"U10–U16", grp:"pairs", kit:"soft / incrediballs", dur:"6 min",
+      purpose:"Reaction close-catching without hard-ball risk.",
+      science:"Soft ball keeps neurological demand (speed) high while lowering peripheral risk — appropriate for U10–U13.", srcs:["woolmer"],
+      topics:["ch12-t1"],
+      safety:"Soft or Incrediball ONLY." },
+  53:{ cat:"field", age:"U11–U19", grp:"group of 5–8", kit:"balls, cones", dur:"10 min",
+      purpose:"Move and throw as a squad; conditioning + skill.",
+      topics:["ch12-t3","ch12-t6"] },
+  54:{ cat:"field", age:"U10–U19", grp:"whole group", kit:"mixed", dur:"15 min",
+      purpose:"Circuit through catching / ground / throw stations.",
+      topics:["ch12-t7"] },
+  63:{ cat:"run", age:"U8–U16", grp:"pairs", kit:"bats, stumps", dur:"6 min",
+      purpose:"Loud, early, decisive calling: 'yes' / 'no' / 'wait'.",
+      topics:["ch9-t6"] },
+  64:{ cat:"run", age:"U10–U19", grp:"pairs", kit:"bats, stumps", dur:"7 min",
+      purpose:"The turn for two — bat down, low, accelerate.",
+      topics:["ch9-t6"] },
+  65:{ cat:"run", age:"U10–U19", grp:"pairs", kit:"bats, stumps", dur:"5 min",
+      purpose:"Non-striker backing up as automatic habit.",
+      topics:["ch9-t6"] },
+  66:{ cat:"run", age:"U11–U19", grp:"pairs + fielder", kit:"bats, stumps, ball", dur:"8 min",
+      purpose:"Read the fielder's arm; beat the throw.",
+      topics:["ch9-t6"] },
+  68:{ cat:"run", age:"U12–U19", grp:"pairs + fielders", kit:"bats, ball, stumps", dur:"10 min",
+      purpose:"Under game pressure: ones vs twos decision game.",
+      topics:["ch9-t6"] },
+  73:{ cat:"game", age:"U11–U19", grp:"small group", kit:"cones, kit", dur:"15 min",
+      purpose:"Placement, not power — score only in high-value zones.",
+      science:"Game-based coaching (TGfU): the game itself rewards the target skill without the coach naming it.", srcs:["tgfu"],
+      topics:["ch16-t3"] },
+  74:{ cat:"game", age:"U11–U19", grp:"small group", kit:"kit, stumps", dur:"15 min",
+      purpose:"No boundaries — every scoring shot must be run. Builds running and fitness.",
+      topics:["ch9-t6"] },
+  80:{ cat:"game", age:"U8–U16", grp:"whole group", kit:"bat, soft ball", dur:"15 min", anim:"knockout",
+      purpose:"Inclusive game finisher; a catch counts even one-handed after one bounce.",
+      topics:["ch12-t1"] },
+  85:{ cat:"game", age:"U13–U19", grp:"whole squad", kit:"kit", dur:"20 min",
+      purpose:"Captain sets the field; consequences visible in the score.",
+      science:"Captaincy as a coachable skill (situation reading, plan → field → bowler).", srcs:["tgfu"],
+      topics:["ch16-t1","ch16-t2","ch16-t6"] },
+  90:{ cat:"game", age:"U12–U19", grp:"whole squad", kit:"kit", dur:"18 min",
+      purpose:"Fielding side plays under scoreboard pressure.",
+      topics:["ch12-t6"] },
+  91:{ cat:"game", age:"U11–U19", grp:"small group", kit:"kit", dur:"12 min",
+      purpose:"Beat-the-field singles: batting side must run every gap.",
+      topics:["ch9-t6"] },
+  99:{ cat:"game", age:"U8–U19", grp:"whole group", kit:"balls", dur:"10 min", anim:"knockout",
+      purpose:"Catching under elimination pressure; high concentration finisher.",
+      topics:["ch12-t1"] },
+  100:{ cat:"game", age:"U8–U16", grp:"whole group", kit:"balls, cones, stumps", dur:"12 min",
+      purpose:"Technique at speed; team relay of pick-up and throw tasks.",
+      topics:["ch12-t7"] },
+  102:{ cat:"game", age:"U10–U19", grp:"whole squad", kit:"full kit", dur:"25 min",
+      purpose:"Block finisher: mini-tournament that puts every learned skill in a real match shape.",
+      topics:["ch16-t5"] },
+};
 
 const DRILL_NAMES = {
   1:"Cricket Tag",3:"Dynamic Mobility Line",6:"Shadow Skills Round",11:"Grip & Mirror Check",12:"Drop-Ball Drive",13:"Tee / Cone Hitting",
@@ -539,11 +916,12 @@ const DAY1 = {
 
 const KIND = { admin:"Admin", warm:"Warm-up", bat:"Batting", field:"Fielding", game:"Game" };
 
-/* Which clips each block and cue card links to */
-Object.assign(DAY1.blocks[1], { clips:["stance"] });
-Object.assign(DAY1.blocks[3], { clips:["grip","drive"], anim:"rotation" });
-Object.assign(DAY1.blocks[5], { clips:["catch","barrier"] });
-Object.assign(DAY1.blocks[6], { clips:["catch"] });
+/* Which clips each block and cue card links to; pedagogical citations per block */
+Object.assign(DAY1.blocks[1], { clips:["stance"], srcs:["ramp"] });
+Object.assign(DAY1.blocks[2], { srcs:["tgfu"] });
+Object.assign(DAY1.blocks[3], { clips:["grip","drive"], anim:"rotation", srcs:["cla","wulf","shea"] });
+Object.assign(DAY1.blocks[5], { clips:["catch","barrier"], srcs:["cla"] });
+Object.assign(DAY1.blocks[6], { clips:["catch"], srcs:["shea"] });
 DAY1.cues.forEach((c, i) => { c.clip = ["grip","stance","catch","barrier"][i]; });
 
 /* ------------------------------------------------------------------
@@ -860,7 +1238,8 @@ const Chev = () => html`<svg class="chev" width="16" height="16" viewBox="0 0 16
 const Ball = ({ size = 30, cls = "" }) => html`<svg class=${cls} width=${size} height=${size} viewBox="0 0 40 40" aria-hidden="true"><circle cx="20" cy="20" r="18" fill="#B23A2E"/><path d="M8 7c6 7 6 19 0 26M32 7c-6 7-6 19 0 26" stroke="#F5F4EE" stroke-width="1.6" fill="none" stroke-dasharray="2.2 2.2"/></svg>`;
 const NavIcon = ({ name }) => {
   const p = { today:"M4 6h16M4 12h16M4 18h10", program:"M4 5h16v15H4zM4 10h16M9 3v4M15 3v4", syllabus:"M5 4h9l5 5v11H5zM14 4v5h5M8 13h8M8 17h6",
-    journey:"M6 20a2 2 0 1 0 0-.01M18 6a2 2 0 1 0 0-.01M6 18V9a3 3 0 0 1 6 0v6a3 3 0 0 0 6 0V8", trophies:"M8 4h8v5a4 4 0 0 1-8 0zM8 6H5a3 3 0 0 0 3 4M16 6h3a3 3 0 0 1-3 4M12 13v4M8 20h8M10 17h4v3h-4z" }[name];
+    journey:"M6 20a2 2 0 1 0 0-.01M18 6a2 2 0 1 0 0-.01M6 18V9a3 3 0 0 1 6 0v6a3 3 0 0 0 6 0V8", trophies:"M8 4h8v5a4 4 0 0 1-8 0zM8 6H5a3 3 0 0 0 3 4M16 6h3a3 3 0 0 1-3 4M12 13v4M8 20h8M10 17h4v3h-4z",
+    library:"M5 4h5a3 3 0 0 1 2 1 3 3 0 0 1 2-1h5v14h-5a3 3 0 0 0-2 1 3 3 0 0 0-2-1H5zM12 5v14" }[name];
   return html`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d=${p}/></svg>`;
 };
 const Face = ({ mood }) => {
@@ -964,6 +1343,7 @@ function CoachToday({ T }){
                 </summary>
                 <div class="blk-in">
                   <ul class="cues">${b.coach.map((c, j) => html`<li key=${j}>${c}</li>`)}</ul>
+                  ${b.srcs && html`<${Cites} keys=${b.srcs}/>`}
                   ${b.anim && html`<${ActionPlayer} spec=${ANIMS[b.anim]}/>`}
                   ${b.rotation && html`<div><div class="lbl">Rotation</div><div style=${{ overflowX:"auto" }}><table class="rot">
                     <thead><tr><th></th><th>Grip & Mirror</th><th>Drop-Ball</th><th>Tee</th></tr></thead>
@@ -1212,6 +1592,12 @@ function Trophies({ st }){
 }
 
 /* ---------- program ---------- */
+function Cites({ keys }){
+  const c = cite(keys);
+  if (!c.length) return null;
+  return html`<div class="cites">${c.map(s => html`<span key=${s.s} class="cite" title=${s.full}>${s.s}</span>`)}</div>`;
+}
+
 function Program({ T, goToday, role }){
   let w = 0;
   const cells = PROGRAM.phases.flatMap(p => Array.from({ length: p.weeks }, () => html`<i key=${w++} class=${p.cls}></i>`));
@@ -1229,7 +1615,20 @@ function Program({ T, goToday, role }){
       <p class="note" style=${{ margin:0 }}>Built from ${T("ch18-t1")} and ${T("ch18-t2")}. Each week: Day 1 batting-led, Day 2 fielding-led, Day 3 game day.</p>
     </section>
 
-    ${WEEKS.map(wk => html`<details class=${"wk fold" + (wk.n === 1 ? " cur" : "")} key=${wk.n} open=${wk.n === 1}>
+    <section class="card pad">
+      <div class="sec-head"><h2 class="sec">Why this block, this way</h2><span>Scientific basis</span></div>
+      <p class="note" style=${{ margin:"0 0 12px" }}>${PROGRAM_SCI.headline}</p>
+      <div class="rationale">
+        ${PROGRAM_SCI.bullets.map(b => html`<div class="science" key=${b.t}>
+          <div class="lbl">${b.t}</div>
+          <div>${b.v}</div>
+          <${Cites} keys=${b.srcs}/>
+        </div>`)}
+      </div>
+    </section>
+
+    ${WEEKS.map(wk => { const sci = WEEK_SCI[wk.n];
+      return html`<details class=${"wk fold" + (wk.n === 1 ? " cur" : "")} key=${wk.n} open=${wk.n === 1}>
       <summary>
         <div>
           <div class="wk-no">WEEK ${wk.n}${wk.n === 1 ? " · THIS WEEK" : ""}</div>
@@ -1238,6 +1637,17 @@ function Program({ T, goToday, role }){
         </div><${Chev}/>
       </summary>
       <div class="wk-in">
+        ${sci && html`<div class="science">
+          <div class="lbl">Why we're doing this</div>
+          <div>${sci.why}</div>
+          <div class="ref" style=${{ marginTop:8, display:"grid", gridTemplateColumns:"1fr 1fr", gap:"4px 12px" }}>
+            <div><b>LTAD stage:</b> ${sci.ltad}</div>
+            <div><b>Trainability:</b> ${sci.window}</div>
+            <div style=${{ gridColumn:"1/-1" }}><b>Pedagogy:</b> ${sci.pedagogy || "—"}</div>
+            <div style=${{ gridColumn:"1/-1" }}><b>Load:</b> ${sci.load || "—"}</div>
+          </div>
+          <${Cites} keys=${sci.srcs}/>
+        </div>`}
         <div class="two">
           ${[["bat","Batting",wk.bat],["field","Fielding",wk.field]].map(([k, label, s]) => html`<div class=${"strand k-" + k} key=${k}>
             <div class="lbl">${label}</div>
@@ -1254,7 +1664,70 @@ function Program({ T, goToday, role }){
         })}</div>
         <div class="mile"><svg width="14" height="14" viewBox="0 0 14 14"><path d="M3 1v12M3 2h8l-2 3 2 3H3" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/></svg>${wk.milestone}</div>
       </div>
-    </details>`)}
+    </details>`; })}
+
+    <section class="card pad">
+      <div class="sec-head"><h2 class="sec">Sources</h2><span>Cited across the app</span></div>
+      <ul style=${{ margin:0, paddingLeft:18, display:"flex", flexDirection:"column", gap:5, fontSize:13, lineHeight:1.5 }}>
+        ${Object.values(SOURCES).map(s => html`<li key=${s.s}><b>${s.s}</b> — ${s.full}</li>`)}
+      </ul>
+    </section>
+  </div>`;
+}
+
+/* ---------- library (shared coach + student) ---------- */
+function DrillLibrary({ T, openClip, st }){
+  const [filter, setFilter] = useStored("libFilter", "all");
+  const [q, setQ] = useStored("libQ", "");
+  const [openId, setOpenId] = useState(null);
+  const list = useMemo(() => Object.entries(DRILL_LIB)
+    .filter(([, d]) => filter === "all" || d.cat === filter)
+    .filter(([n, d]) => { const s = (DRILL_NAMES[n] + " " + (d.purpose || "")).toLowerCase(); return !q || s.includes(q.toLowerCase()); })
+    .map(([n, d]) => [Number(n), d])
+    .sort((a, b) => a[0] - b[0]), [filter, q]);
+
+  const filters = [["all", "All", DRILL_LIB], ...Object.entries(CATS).map(([k, v]) => [k, v.label, v.cls])];
+
+  return html`<div class="screen">
+    <section class="hero">
+      <div class="eyebrow">Drill reference · ${list.length} of ${Object.keys(DRILL_LIB).length}</div>
+      <h1>Library</h1>
+      <p class="note" style=${{ margin:0 }}>Every drill in the 8-week block, with purpose, scientific basis, procedure, coaching points, common faults, progressions and safety notes. Numbers match the Drills Library in <i>The Coaching Crease</i>.</p>
+      <input class="lib-search" type="search" placeholder="Search drills…" value=${q} onInput=${e => setQ(e.target.value)} aria-label="Search drills"/>
+      <div class="chips">${filters.map(([k, l]) => html`<button key=${k} class=${"chip " + (k === "all" ? "" : (CATS[k] || {}).cls || "")} aria-pressed=${filter === k ? "true" : "false"} onClick=${() => setFilter(k)}>${l}</button>`)}</div>
+    </section>
+
+    <div class="stack">
+      ${list.length === 0 && html`<div class="empty">No drills match. Try a broader filter.</div>`}
+      ${list.map(([n, d]) => {
+        const cat = CATS[d.cat] || {};
+        const isOpen = openId === n;
+        return html`<details class=${"lcard fold " + cat.cls} key=${n} open=${isOpen} onToggle=${e => setOpenId(e.target.open ? n : (openId === n ? null : openId))}>
+          <summary>
+            <div style=${{ minWidth:0 }}>
+              <div class="l-no">DRILL ${String(n).padStart(2,"0")} · ${cat.label}</div>
+              <div class="l-name">${DRILL_NAMES[n]}</div>
+              <div class="l-tags"><span>${d.age}</span><span>${d.grp}</span><span>${d.kit}</span><span>${d.dur}</span></div>
+              ${d.purpose && html`<p class="note" style=${{ margin:"6px 0 0" }}>${d.purpose}</p>`}
+            </div><${Chev}/>
+          </summary>
+          <div class="l-body">
+            ${d.anim && html`<${ActionPlayer} spec=${ANIMS[d.anim]} onWatched=${st && st.watch}/>`}
+            ${d.science && html`<div class="why"><div class="lbl">Why it works</div><div>${d.science}</div><${Cites} keys=${d.srcs}/></div>`}
+            ${d.setup && html`<div class="l-sec"><div class="lbl">Set up</div><div>${d.setup}</div></div>`}
+            ${d.steps && html`<div class="l-sec"><div class="lbl">Run it</div><ol>${d.steps.map((s, i) => html`<li key=${i}>${s}</li>`)}</ol></div>`}
+            ${d.coach && html`<div class="l-sec"><div class="lbl">Coaching points</div><div>${d.coach}</div></div>`}
+            ${d.faults && html`<div class="fault"><div class="lbl">Common faults</div><ul>${d.faults.map((f, i) => html`<li key=${i}>${f}</li>`)}</ul></div>`}
+            ${(d.easier || d.harder) && html`<div class="prog-row">
+              <div><div class="lbl">Easier</div>${d.easier || "—"}</div>
+              <div><div class="lbl">Harder</div>${d.harder || "—"}</div>
+            </div>`}
+            ${d.safety && html`<div class="safe"><svg width="16" height="16" viewBox="0 0 16 16"><path d="M8 1 14 3v4c0 4-3 7-6 8-3-1-6-4-6-8V3z" fill="none" stroke="currentColor" stroke-width="1.4"/><path d="M8 5v3M8 10.5v.5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg><div><b>Safety:</b> ${d.safety}</div></div>`}
+            ${d.topics && html`<div class="l-sec"><div class="lbl">Syllabus topics</div><div class="ref">${d.topics.map((id, i) => html`<span key=${id}>${i ? " · " : ""}<b style=${{ fontWeight:500, color:"var(--ink-soft)" }}>${T(id)}</b> <span class="mono">${id}</span></span>`)}</div></div>`}
+          </div>
+        </details>`;
+      })}
+    </div>
   </div>`;
 }
 
@@ -1335,18 +1808,22 @@ function App(){
     if (cur.level > p.level) setLvlUp(cur.level);
   }, [st.xp]);
 
-  const t = role === "coach" ? (tab === "trophies" ? "today" : tab) : (tab === "syllabus" ? "today" : tab);
+  const coachTabs = ["today", "program", "library", "syllabus"];
+  const studentTabs = ["today", "program", "library", "trophies"];
+  const allowed = role === "coach" ? coachTabs : studentTabs;
+  const t = allowed.includes(tab) ? tab : "today";
   let body;
   if (err) body = html`<div class="state">Couldn't load <code>Cricket-Coaching-Syllabus.json</code> (${err}).<br/><br/>Serve this folder over HTTP, for example <code>python -m http.server</code>, and open the page from there. Browsers block file:// fetches.</div>`;
   else if (!data) body = html`<div class="state">Loading the syllabus…</div>`;
+  else if (t === "library") body = html`<${DrillLibrary} T=${T} openClip=${setClip} st=${role === "student" ? st : null}/>`;
   else if (role === "coach") body = t === "program" ? html`<${Program} T=${T} role=${role} goToday=${() => setTab("today")}/>`
     : t === "syllabus" ? html`<${Syllabus} data=${data} byId=${byId}/>` : html`<${CoachToday} T=${T}/>`;
   else body = t === "program" ? html`<${Journey} st=${st} goToday=${() => setTab("today")}/>`
     : t === "trophies" ? html`<${Trophies} st=${st}/>` : html`<${StudentToday} st=${st} T=${T} openClip=${setClip}/>`;
 
   const tabs = role === "coach"
-    ? [["today", "Session", "today"], ["program", "8 weeks", "program"], ["syllabus", "Syllabus", "syllabus"]]
-    : [["today", "Today", "today"], ["program", "Journey", "journey"], ["trophies", "Trophies", "trophies"]];
+    ? [["today", "Session", "today"], ["program", "Program", "program"], ["library", "Library", "library"], ["syllabus", "Syllabus", "syllabus"]]
+    : [["today", "Today", "today"], ["program", "Journey", "journey"], ["library", "Library", "library"], ["trophies", "Trophies", "trophies"]];
   return html`<div class="app">
     <header class="top">
       <div class="top-row">
@@ -1357,7 +1834,7 @@ function App(){
       </div>
     </header>
     <main>${body}</main>
-    <nav class="nav" aria-label="Sections">
+    <nav class="nav n4" aria-label="Sections">
       ${tabs.map(([k, l, ic]) => html`<button key=${k} aria-current=${t === k ? "page" : undefined} onClick=${() => setTab(k)}><${NavIcon} name=${ic}/>${l}</button>`)}
     </nav>
     <div class="toasts" aria-live="polite">${toasts.map(x => html`<div key=${x.id} class=${"toast" + (x.kind === "badge" ? " bt" : "")}>${x.kind === "xp" ? html`<b>${x.text}</b> XP` : html`Badge unlocked: ${x.text}`}</div>`)}</div>
