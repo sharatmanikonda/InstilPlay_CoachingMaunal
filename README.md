@@ -22,6 +22,14 @@ python -m http.server 5173
 
 Then open <http://localhost:5173/cricket-program.html>. The layout is designed for phone width; on desktop it renders as a centred phone-sized column.
 
+## Live site (GitHub Pages)
+
+`.github/workflows/pages.yml` deploys on every push to `main`. It publishes **only** the app (as `index.html`) and `Cricket-Coaching-Syllabus.json`; the manual and mind-map files are not put on the site.
+
+Site: <https://sharatmanikonda.github.io/InstilPlay_CoachingMaunal/>
+
+One-time setup: **Settings → Pages → Build and deployment → Source: GitHub Actions**. A Pages site is public even when the repository is private.
+
 ## How the program maps to the syllabus
 
 The 8-week plan lives in `cricket-program.html` (`PROGRAM`, `WEEKS`, `DAY1`) and never duplicates syllabus text: every topic is an id such as `ch9-t1` (Grip) or `ch12-t2` (Ground fielding), resolved to its title from the JSON. Drill numbers refer to the Drills Library in *The Coaching Crease*. Editing the JSON updates the app.
