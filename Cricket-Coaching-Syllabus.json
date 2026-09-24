@@ -1,0 +1,403 @@
+{
+  "meta": {
+    "title": "Junior & Youth Cricket Coaching Syllabus",
+    "source": "The Coaching Crease — coaching manual (U8–U19)",
+    "ageRange": "U8–U19",
+    "alignment": "BCCI/NCA pathways + international best practice",
+    "version": "1.0",
+    "generated": "2026-09-24",
+    "nodeTypes": ["root", "part", "chapter", "topic", "drillCategory", "appendix"],
+    "notes": "Nested tree faithful to the mind map, with stable ids and tags for use as app seed data (syllabus builder / content library)."
+  },
+  "root": {
+    "id": "root",
+    "type": "root",
+    "title": "Junior & Youth Cricket Coaching Syllabus (U8–U19)",
+    "children": [
+      {
+        "id": "p1",
+        "type": "part",
+        "title": "Foundations of Coaching",
+        "children": [
+          {
+            "id": "ch1",
+            "type": "chapter",
+            "title": "The Coach's Role & Philosophy",
+            "topics": [
+              { "id": "ch1-t1", "type": "topic", "title": "Four channels: environment, relationship, role model, instructor" },
+              { "id": "ch1-t2", "type": "topic", "title": "Building a coaching philosophy (why / what / how)" },
+              { "id": "ch1-t3", "type": "topic", "title": "Winning vs developing" },
+              { "id": "ch1-t4", "type": "topic", "title": "Code of conduct & Spirit of Cricket" },
+              { "id": "ch1-t5", "type": "topic", "title": "The reflective coach" }
+            ]
+          },
+          {
+            "id": "ch2",
+            "type": "chapter",
+            "title": "How Young Players Learn",
+            "topics": [
+              { "id": "ch2-t1", "type": "topic", "title": "LTAD stages (FUNdamentals → Active for Life)" },
+              { "id": "ch2-t2", "type": "topic", "title": "Skill-hungry years (~8–12)" },
+              { "id": "ch2-t3", "type": "topic", "title": "Growth, maturation & the awkward phase" },
+              { "id": "ch2-t4", "type": "topic", "title": "Relative age effect & late developers" },
+              { "id": "ch2-t5", "type": "topic", "title": "Attention spans & session pacing" }
+            ]
+          },
+          {
+            "id": "ch3",
+            "type": "chapter",
+            "title": "Coaching Methods",
+            "topics": [
+              { "id": "ch3-t1", "type": "topic", "title": "Game-based coaching (TGfU)" },
+              { "id": "ch3-t2", "type": "topic", "title": "Constraints-led approach (task / environment / individual)" },
+              { "id": "ch3-t3", "type": "topic", "title": "Blocked vs varied practice" },
+              { "id": "ch3-t4", "type": "topic", "title": "Discovery vs instruction balance" }
+            ]
+          },
+          {
+            "id": "ch4",
+            "type": "chapter",
+            "title": "Communication & Feedback",
+            "topics": [
+              { "id": "ch4-t1", "type": "topic", "title": "External vs internal cues" },
+              { "id": "ch4-t2", "type": "topic", "title": "Feedback: less, later, earned" },
+              { "id": "ch4-t3", "type": "topic", "title": "Questioning" },
+              { "id": "ch4-t4", "type": "topic", "title": "Praise the process (growth mindset)" },
+              { "id": "ch4-t5", "type": "topic", "title": "Managing behaviour" }
+            ]
+          },
+          {
+            "id": "ch5",
+            "type": "chapter",
+            "title": "Parents, Team & Group",
+            "topics": [
+              { "id": "ch5-t1", "type": "topic", "title": "Working with parents / the car-ride home" },
+              { "id": "ch5-t2", "type": "topic", "title": "Mixed abilities in one group" },
+              { "id": "ch5-t3", "type": "topic", "title": "Inclusion as default" }
+            ]
+          }
+        ]
+      },
+      {
+        "id": "p2",
+        "type": "part",
+        "title": "Safety & Care",
+        "children": [
+          {
+            "id": "ch6",
+            "type": "chapter",
+            "title": "Safeguarding & Inclusion",
+            "topics": [
+              { "id": "ch6-t1", "type": "topic", "title": "Pre-season essentials (clearance, welfare officer, reporting route, consent)" },
+              { "id": "ch6-t2", "type": "topic", "title": "Safe-practice habits (rule of two, contact, communication)" },
+              { "id": "ch6-t3", "type": "topic", "title": "If a child discloses harm" },
+              { "id": "ch6-t4", "type": "topic", "title": "Girls' cricket" },
+              { "id": "ch6-t5", "type": "topic", "title": "Disability / para-cricket" },
+              { "id": "ch6-t6", "type": "topic", "title": "STEP framework (Space, Task, Equipment, People)" }
+            ]
+          },
+          {
+            "id": "ch7",
+            "type": "chapter",
+            "title": "Fast-Bowling Workload",
+            "topics": [
+              { "id": "ch7-t1", "type": "topic", "title": "Match limits: overs per spell & per day by age" },
+              { "id": "ch7-t2", "type": "topic", "title": "Rest-between-spells rule" },
+              { "id": "ch7-t3", "type": "topic", "title": "Weekly load & recovery" },
+              { "id": "ch7-t4", "type": "topic", "title": "Warning signs of back injury" },
+              { "id": "ch7-t5", "type": "topic", "title": "Mixed-action risk" }
+            ]
+          },
+          {
+            "id": "ch8",
+            "type": "chapter",
+            "title": "Injury, Equipment & the Field",
+            "topics": [
+              { "id": "ch8-t1", "type": "topic", "title": "Mandatory helmets (batting & keeping up)" },
+              { "id": "ch8-t2", "type": "topic", "title": "Young-fielder distances (11 yd U13 / 8 yd U15)" },
+              { "id": "ch8-t3", "type": "topic", "title": "RAMP warm-up" },
+              { "id": "ch8-t4", "type": "topic", "title": "Common injuries & concussion protocol" },
+              { "id": "ch8-t5", "type": "topic", "title": "Heat, hydration, ground safety, Emergency Action Plan" }
+            ]
+          }
+        ]
+      },
+      {
+        "id": "p3",
+        "type": "part",
+        "title": "Technical Skills",
+        "children": [
+          {
+            "id": "ch9",
+            "type": "chapter",
+            "title": "Batting",
+            "discipline": "batting",
+            "topics": [
+              { "id": "ch9-t1", "type": "topic", "title": "Grip (V-alignment)" },
+              { "id": "ch9-t2", "type": "topic", "title": "Stance & set-up (still, level head)" },
+              { "id": "ch9-t3", "type": "topic", "title": "Backlift & the 'V'" },
+              { "id": "ch9-t4", "type": "topic", "title": "Reading length → footwork" },
+              { "id": "ch9-t5", "type": "topic", "title": "Shots in layers: defence, drives, cut/pull, sweep" },
+              { "id": "ch9-t6", "type": "topic", "title": "Running between the wickets" },
+              { "id": "ch9-t7", "type": "topic", "title": "Power hitting" },
+              { "id": "ch9-t8", "type": "topic", "title": "Fault diagnosis" }
+            ]
+          },
+          {
+            "id": "ch10",
+            "type": "chapter",
+            "title": "Pace Bowling",
+            "discipline": "pace-bowling",
+            "topics": [
+              { "id": "ch10-t1", "type": "topic", "title": "Action phases (run-up, gather, delivery stride, release, follow-through)" },
+              { "id": "ch10-t2", "type": "topic", "title": "Braced front leg" },
+              { "id": "ch10-t3", "type": "topic", "title": "Alignment: side-on / midway / front-on vs mixed action" },
+              { "id": "ch10-t4", "type": "topic", "title": "Grip, seam & swing (out / in)" },
+              { "id": "ch10-t5", "type": "topic", "title": "Length, line & the corridor" },
+              { "id": "ch10-t6", "type": "topic", "title": "Variations (slower ball, yorker, bouncer, cutter)" },
+              { "id": "ch10-t7", "type": "topic", "title": "Fault diagnosis" }
+            ]
+          },
+          {
+            "id": "ch11",
+            "type": "chapter",
+            "title": "Spin Bowling",
+            "discipline": "spin-bowling",
+            "topics": [
+              { "id": "ch11-t1", "type": "topic", "title": "Finger spin (off-break) vs wrist spin (leg-break)" },
+              { "id": "ch11-t2", "type": "topic", "title": "Grips & release" },
+              { "id": "ch11-t3", "type": "topic", "title": "Weapons in the air: flight, dip, drift, turn" },
+              { "id": "ch11-t4", "type": "topic", "title": "Tempting length" },
+              { "id": "ch11-t5", "type": "topic", "title": "Variations (arm ball, googly, top-spinner, flipper)" },
+              { "id": "ch11-t6", "type": "topic", "title": "Fields & tactics; rip it first" },
+              { "id": "ch11-t7", "type": "topic", "title": "Fault diagnosis" }
+            ]
+          },
+          {
+            "id": "ch12",
+            "type": "chapter",
+            "title": "Fielding",
+            "discipline": "fielding",
+            "topics": [
+              { "id": "ch12-t1", "type": "topic", "title": "Catching (high, flat, close) & the cups" },
+              { "id": "ch12-t2", "type": "topic", "title": "Ground fielding (long barrier, attacking pick-up, one-handed)" },
+              { "id": "ch12-t3", "type": "topic", "title": "Throwing & the crow-hop" },
+              { "id": "ch12-t4", "type": "topic", "title": "Run-outs & backing up" },
+              { "id": "ch12-t5", "type": "topic", "title": "Fielding positions map" },
+              { "id": "ch12-t6", "type": "topic", "title": "Team fielding & energy" },
+              { "id": "ch12-t7", "type": "topic", "title": "Fault diagnosis" }
+            ]
+          },
+          {
+            "id": "ch13",
+            "type": "chapter",
+            "title": "Wicketkeeping",
+            "discipline": "wicketkeeping",
+            "topics": [
+              { "id": "ch13-t1", "type": "topic", "title": "Stance & rising with the bounce" },
+              { "id": "ch13-t2", "type": "topic", "title": "Standing back vs standing up" },
+              { "id": "ch13-t3", "type": "topic", "title": "Soft hands / the give" },
+              { "id": "ch13-t4", "type": "topic", "title": "Footwork (feet then hands)" },
+              { "id": "ch13-t5", "type": "topic", "title": "Stumpings & run-outs" },
+              { "id": "ch13-t6", "type": "topic", "title": "Keeper safety (helmet standing up)" },
+              { "id": "ch13-t7", "type": "topic", "title": "Fault diagnosis" }
+            ]
+          }
+        ]
+      },
+      {
+        "id": "p4",
+        "type": "part",
+        "title": "Body & Mind",
+        "children": [
+          {
+            "id": "ch14",
+            "type": "chapter",
+            "title": "Athletic Development",
+            "topics": [
+              { "id": "ch14-t1", "type": "topic", "title": "Physical literacy first" },
+              { "id": "ch14-t2", "type": "topic", "title": "Trainability windows (skill, speed, endurance, strength)" },
+              { "id": "ch14-t3", "type": "topic", "title": "Strength training & growing bodies (safety)" },
+              { "id": "ch14-t4", "type": "topic", "title": "RAMP warm-up / cool-down" },
+              { "id": "ch14-t5", "type": "topic", "title": "Load & recovery management" }
+            ]
+          },
+          {
+            "id": "ch15",
+            "type": "chapter",
+            "title": "Mental Skills",
+            "topics": [
+              { "id": "ch15-t1", "type": "topic", "title": "Healthy relationship with failure" },
+              { "id": "ch15-t2", "type": "topic", "title": "Concentration & the pre-ball routine" },
+              { "id": "ch15-t3", "type": "topic", "title": "Tools: breathing, focus cues, process goals, self-talk" },
+              { "id": "ch15-t4", "type": "topic", "title": "Coach as the mental environment" }
+            ]
+          },
+          {
+            "id": "ch16",
+            "type": "chapter",
+            "title": "Tactics & Captaincy",
+            "topics": [
+              { "id": "ch16-t1", "type": "topic", "title": "Reading the game (situation, conditions, batter, bowler)" },
+              { "id": "ch16-t2", "type": "topic", "title": "Field settings: attack vs defend" },
+              { "id": "ch16-t3", "type": "topic", "title": "Batting tactics (build & pace an innings)" },
+              { "id": "ch16-t4", "type": "topic", "title": "Bowling tactics (bowl to a plan)" },
+              { "id": "ch16-t5", "type": "topic", "title": "Formats & junior modified games" },
+              { "id": "ch16-t6", "type": "topic", "title": "Captaincy as a coachable skill" }
+            ]
+          }
+        ]
+      },
+      {
+        "id": "p5",
+        "type": "part",
+        "title": "Planning",
+        "children": [
+          {
+            "id": "ch17",
+            "type": "chapter",
+            "title": "Session Design",
+            "topics": [
+              { "id": "ch17-t1", "type": "topic", "title": "Start with the outcome" },
+              { "id": "ch17-t2", "type": "topic", "title": "Whole–part–whole structure" },
+              { "id": "ch17-t3", "type": "topic", "title": "Keeping everyone active (stations, small-sided)" },
+              { "id": "ch17-t4", "type": "topic", "title": "Differentiation via STEP" },
+              { "id": "ch17-t5", "type": "topic", "title": "Session-plan template" },
+              { "id": "ch17-t6", "type": "topic", "title": "Indoor / small-space / large groups" }
+            ]
+          },
+          {
+            "id": "ch18",
+            "type": "chapter",
+            "title": "Season & Group Planning",
+            "topics": [
+              { "id": "ch18-t1", "type": "topic", "title": "Annual periodisation (off / pre / in-season / transition)" },
+              { "id": "ch18-t2", "type": "topic", "title": "Planning a block / term" },
+              { "id": "ch18-t3", "type": "topic", "title": "Balancing the squad (all-round development)" },
+              { "id": "ch18-t4", "type": "topic", "title": "Match management within the plan" }
+            ]
+          }
+        ]
+      },
+      {
+        "id": "p6",
+        "type": "part",
+        "title": "Drills Library",
+        "totalDrills": 102,
+        "children": [
+          {
+            "id": "dc-warm",
+            "type": "drillCategory",
+            "title": "Warm-ups & movement games",
+            "discipline": "warm-up",
+            "drillCount": 10,
+            "drillNumbers": "1–10"
+          },
+          {
+            "id": "dc-bat",
+            "type": "drillCategory",
+            "title": "Batting drills",
+            "discipline": "batting",
+            "drillCount": 12,
+            "drillNumbers": "11–22"
+          },
+          {
+            "id": "dc-pace",
+            "type": "drillCategory",
+            "title": "Pace bowling drills",
+            "discipline": "pace-bowling",
+            "drillCount": 10,
+            "drillNumbers": "23–32"
+          },
+          {
+            "id": "dc-spin",
+            "type": "drillCategory",
+            "title": "Spin bowling drills",
+            "discipline": "spin-bowling",
+            "drillCount": 8,
+            "drillNumbers": "33–40"
+          },
+          {
+            "id": "dc-field",
+            "type": "drillCategory",
+            "title": "Fielding drills",
+            "discipline": "fielding",
+            "drillCount": 14,
+            "drillNumbers": "41–54"
+          },
+          {
+            "id": "dc-keep",
+            "type": "drillCategory",
+            "title": "Wicketkeeping drills",
+            "discipline": "wicketkeeping",
+            "drillCount": 8,
+            "drillNumbers": "55–62"
+          },
+          {
+            "id": "dc-run",
+            "type": "drillCategory",
+            "title": "Running between the wickets",
+            "discipline": "running",
+            "drillCount": 6,
+            "drillNumbers": "63–68"
+          },
+          {
+            "id": "dc-games",
+            "type": "drillCategory",
+            "title": "Small-sided & game-based games",
+            "discipline": "games",
+            "drillCount": 34,
+            "drillNumbers": "69–102"
+          },
+          {
+            "id": "dc-format",
+            "type": "topic",
+            "title": "Drill format: tags · set up · run it · coach · easier/harder"
+          }
+        ]
+      },
+      {
+        "id": "p7",
+        "type": "part",
+        "title": "Assessment & Development",
+        "children": [
+          {
+            "id": "ch20",
+            "type": "chapter",
+            "title": "Player Assessment",
+            "topics": [
+              { "id": "ch20-t1", "type": "topic", "title": "What to assess (technical, tactical, physical, mental)" },
+              { "id": "ch20-t2", "type": "topic", "title": "How (observation, checklists, video, self/peer)" },
+              { "id": "ch20-t3", "type": "topic", "title": "Skill benchmarks by age band" },
+              { "id": "ch20-t4", "type": "topic", "title": "Individual Development Plans (IDPs)" }
+            ]
+          },
+          {
+            "id": "ch21",
+            "type": "chapter",
+            "title": "Pathway & Coach Development",
+            "topics": [
+              { "id": "ch21-t1", "type": "topic", "title": "Player pathway (school → club → district → state → national → India)" },
+              { "id": "ch21-t2", "type": "topic", "title": "BCCI / NCA age groups (U14 / U16 / U19)" },
+              { "id": "ch21-t3", "type": "topic", "title": "Coaching qualifications (BCCI Level 0–3)" },
+              { "id": "ch21-t4", "type": "topic", "title": "The reflective coach" }
+            ]
+          },
+          {
+            "id": "appx",
+            "type": "appendix",
+            "title": "Appendices",
+            "topics": [
+              { "id": "appx-t1", "type": "topic", "title": "Session-plan template" },
+              { "id": "appx-t2", "type": "topic", "title": "IDP template" },
+              { "id": "appx-t3", "type": "topic", "title": "Pre-session safety checklist" },
+              { "id": "appx-t4", "type": "topic", "title": "Fast-bowling limits quick reference" },
+              { "id": "appx-t5", "type": "topic", "title": "Glossary" },
+              { "id": "appx-t6", "type": "topic", "title": "Sources & further reading" }
+            ]
+          }
+        ]
+      }
+    ]
+  }
+}

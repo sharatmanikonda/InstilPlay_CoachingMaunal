@@ -1,0 +1,1379 @@
+<meta charset="utf-8">
+<title>Bat &amp; Field Foundations</title>
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Zilla+Slab:wght@500;600;700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+  :root{
+    --paper:#F5F4EE; --backdrop:#E6E4D8; --surface:#FFFFFF; --surface-2:#EFEEE4;
+    --ink:#1B2621; --ink-soft:#4A554E; --ink-faint:#6F7A72;
+    --border:#E0DFD3; --border-strong:#CBCABB;
+    --red:#B23A2E; --red-soft:#F2E1DD; --red-ink:#8E2C22;
+    --green:#2E6E4E; --green-soft:#E1EDE5;
+    --gold:#9A6B12; --gold-soft:#F4EAD2;
+    --blue:#35607F; --blue-soft:#E0E9F0;
+    --turf:#1F4A36; --turf-ink:#F5F4EE; --turf-faint:#A9C3B4;
+    --skin:#C98F63; --bat:#D9B77E; --grass:#E4EEDD; --grass-line:#9DBE9F;
+    --shadow:0 1px 2px rgba(27,38,33,.05),0 8px 24px rgba(27,38,33,.07);
+    --display:"Zilla Slab",Georgia,"Times New Roman",serif;
+    --sans:"IBM Plex Sans",system-ui,-apple-system,"Segoe UI",sans-serif;
+    --mono:"IBM Plex Mono",ui-monospace,Consolas,monospace;
+  }
+  @media (prefers-color-scheme:dark){
+    :root:not([data-theme="light"]){
+      color-scheme:dark;
+      --paper:#131C18; --backdrop:#0D1411; --surface:#1A241F; --surface-2:#212D27;
+      --ink:#EBEAE1; --ink-soft:#B4BDB5; --ink-faint:#8A948C;
+      --border:#2A362F; --border-strong:#3A473E;
+      --red:#DB5C4F; --red-soft:#33211E; --red-ink:#E9776B;
+      --green:#5CA87D; --green-soft:#1C2B22;
+      --gold:#D2A24A; --gold-soft:#2E2615;
+      --blue:#7FA8C6; --blue-soft:#1B2630;
+      --turf:#18291F; --turf-ink:#EBEAE1; --turf-faint:#8FAE9C;
+      --skin:#B98059; --bat:#C9A66C; --grass:#1C2B21; --grass-line:#3D5A45;
+      --shadow:0 1px 2px rgba(0,0,0,.3),0 8px 26px rgba(0,0,0,.35);
+    }
+  }
+  :root[data-theme="dark"]{
+    color-scheme:dark;
+    --paper:#131C18; --backdrop:#0D1411; --surface:#1A241F; --surface-2:#212D27;
+    --ink:#EBEAE1; --ink-soft:#B4BDB5; --ink-faint:#8A948C;
+    --border:#2A362F; --border-strong:#3A473E;
+    --red:#DB5C4F; --red-soft:#33211E; --red-ink:#E9776B;
+    --green:#5CA87D; --green-soft:#1C2B22;
+    --gold:#D2A24A; --gold-soft:#2E2615;
+    --blue:#7FA8C6; --blue-soft:#1B2630;
+    --turf:#18291F; --turf-ink:#EBEAE1; --turf-faint:#8FAE9C;
+    --skin:#B98059; --bat:#C9A66C; --grass:#1C2B21; --grass-line:#3D5A45;
+    --shadow:0 1px 2px rgba(0,0,0,.3),0 8px 26px rgba(0,0,0,.35);
+  }
+  *{box-sizing:border-box}
+  html,body{height:100%}
+  body{margin:0;background:var(--backdrop);color:var(--ink);font-family:var(--sans);font-size:15px;line-height:1.5;-webkit-font-smoothing:antialiased}
+  button,input,textarea{font:inherit;color:inherit}
+  button{cursor:pointer}
+  :focus-visible{outline:2px solid var(--red);outline-offset:2px;border-radius:6px}
+  @media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
+
+  .app{max-width:440px;margin:0 auto;min-height:100%;background:var(--paper);position:relative;padding-bottom:calc(76px + env(safe-area-inset-bottom,0px))}
+  @media (min-width:520px){.app{box-shadow:0 0 0 1px var(--border),0 20px 60px rgba(0,0,0,.12)}}
+
+  /* header */
+  .top{position:sticky;top:env(safe-area-inset-top,0px);z-index:20;background:var(--turf);color:var(--turf-ink);padding:12px 16px 12px}
+  .top-row{display:flex;align-items:center;justify-content:space-between;gap:12px}
+  .brand{display:flex;align-items:center;gap:9px;min-width:0}
+  .brand svg{flex:none}
+  .brand b{font-family:var(--display);font-size:18px;font-weight:700;letter-spacing:-.01em;line-height:1.1;display:block}
+  .brand small{display:block;font-size:11px;color:var(--turf-faint);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .seg{display:flex;background:rgba(255,255,255,.1);border-radius:999px;padding:3px;flex:none}
+  .seg button{border:0;background:transparent;color:var(--turf-faint);padding:6px 12px;border-radius:999px;font-size:13px;font-weight:600}
+  .seg button[aria-pressed="true"]{background:var(--turf-ink);color:var(--turf)}
+
+  /* bottom nav */
+  .nav{position:fixed;bottom:0;left:50%;transform:translateX(-50%);width:min(440px,100%);z-index:30;background:var(--surface);border-top:1px solid var(--border);display:grid;grid-template-columns:repeat(3,1fr);padding:6px 8px calc(6px + env(safe-area-inset-bottom,0px))}
+  .nav button{border:0;background:none;display:flex;flex-direction:column;align-items:center;gap:2px;padding:6px 0;font-size:11.5px;font-weight:600;color:var(--ink-faint);border-radius:10px}
+  .nav button[aria-current="page"]{color:var(--red-ink)}
+  .nav svg{width:22px;height:22px}
+
+  .screen{padding:16px 16px 24px;display:flex;flex-direction:column;gap:18px}
+  h2.sec{font-family:var(--display);font-size:19px;font-weight:600;margin:0;text-wrap:balance;letter-spacing:-.005em}
+  .sec-head{display:flex;align-items:baseline;justify-content:space-between;gap:10px;margin-bottom:10px}
+  .sec-head span{font-size:12px;color:var(--ink-faint)}
+  .eyebrow{font-size:11px;font-weight:600;letter-spacing:.09em;text-transform:uppercase;color:var(--ink-faint)}
+  .mono{font-family:var(--mono);font-variant-numeric:tabular-nums}
+  .muted{color:var(--ink-soft)}
+  .faint{color:var(--ink-faint)}
+  .card{background:var(--surface);border:1px solid var(--border);border-radius:14px}
+  .pad{padding:14px}
+
+  /* hero */
+  .hero{background:var(--surface);border:1px solid var(--border);border-radius:16px;padding:16px;box-shadow:var(--shadow);display:flex;flex-direction:column;gap:12px}
+  .hero h1{font-family:var(--display);font-size:26px;line-height:1.1;margin:2px 0 0;font-weight:700;letter-spacing:-.015em;text-wrap:balance}
+  .meta{display:flex;flex-wrap:wrap;gap:6px}
+  .pill{display:inline-flex;align-items:center;gap:5px;font-size:12px;padding:3px 9px;border-radius:999px;background:var(--surface-2);color:var(--ink-soft);font-weight:500;white-space:nowrap}
+  .outcome{background:var(--green-soft);border-radius:12px;padding:10px 12px;font-size:14px}
+  .outcome b{display:block;font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--green);margin-bottom:2px}
+
+  /* timer */
+  .timer{display:flex;flex-direction:column;gap:10px;padding:14px;background:var(--turf);color:var(--turf-ink);border-radius:16px}
+  .timer-row{display:flex;align-items:center;justify-content:space-between;gap:10px}
+  .clock{flex:none;white-space:nowrap;font-family:var(--mono);font-size:26px;font-weight:500;letter-spacing:-.02em;line-height:1}
+  .clock small{font-size:14px;color:var(--turf-faint)}
+  .now{font-size:13px;color:var(--turf-faint);min-width:0}
+  .now b{color:var(--turf-ink);display:block;font-size:15px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .bar{height:6px;border-radius:99px;background:rgba(255,255,255,.14);overflow:hidden;display:flex;gap:2px}
+  .bar i{display:block;height:100%;background:rgba(255,255,255,.2)}
+  .bar i.done{background:var(--turf-ink)}
+  .bar i.live{background:linear-gradient(90deg,var(--turf-ink) var(--p),rgba(255,255,255,.2) var(--p))}
+  .btns{display:flex;gap:8px}
+  .btn{border:0;border-radius:10px;padding:9px 14px;font-weight:600;font-size:14px;background:var(--red);color:#fff}
+  .btn.ghost{background:rgba(255,255,255,.12);color:var(--turf-ink)}
+  .btn.line{background:transparent;border:1px solid var(--border-strong);color:var(--ink)}
+  .btn.small{padding:6px 11px;font-size:13px}
+
+  /* checklist */
+  .check{display:flex;gap:10px;align-items:flex-start;padding:9px 0;border-top:1px solid var(--border);font-size:14px}
+  .check:first-child{border-top:0}
+  .check input{width:20px;height:20px;margin:1px 0 0;accent-color:var(--green);flex:none}
+  .check label{flex:1;cursor:pointer}
+  .check small{display:block;color:var(--ink-faint);font-size:12px}
+  .done-count{font-family:var(--mono);font-size:12px;color:var(--ink-faint)}
+
+  details.fold>summary{list-style:none;cursor:pointer;display:flex;justify-content:space-between;align-items:center;gap:10px}
+  details.fold>summary::-webkit-details-marker{display:none}
+  .chev{transition:transform .2s;color:var(--ink-faint);flex:none}
+  details[open]>summary .chev{transform:rotate(90deg)}
+
+  /* timeline */
+  .tl{display:flex;flex-direction:column}
+  .blk{display:grid;grid-template-columns:46px 1fr;gap:10px;position:relative}
+  .blk .t{font-family:var(--mono);font-size:12.5px;color:var(--ink-faint);padding-top:14px;text-align:right}
+  .blk .body{border-left:2px solid var(--border);padding:10px 0 10px 14px;position:relative;min-width:0}
+  .blk .body::before{content:"";position:absolute;left:-6px;top:17px;width:10px;height:10px;border-radius:50%;background:var(--paper);border:2px solid var(--k,var(--ink-faint))}
+  .blk.live .body::before{background:var(--k)}
+  .blk.past .t{text-decoration:line-through}
+  .blk-card{background:var(--surface);border:1px solid var(--border);border-radius:12px;overflow:hidden}
+  .blk.live .blk-card{border-color:var(--k);box-shadow:0 0 0 3px color-mix(in srgb,var(--k) 18%,transparent)}
+  .blk-card>summary{padding:11px 12px;align-items:flex-start}
+  .blk-title{font-weight:600;font-size:15px;line-height:1.3}
+  .blk-sub{display:flex;flex-wrap:wrap;gap:6px;margin-top:5px;align-items:center}
+  .kind{font-size:11px;font-weight:600;letter-spacing:.04em;text-transform:uppercase;color:var(--k);background:var(--ks);padding:2px 7px;border-radius:5px}
+  .dur{font-family:var(--mono);font-size:12px;color:var(--ink-faint)}
+  .livetag{font-size:11px;font-weight:700;color:#fff;background:var(--red);padding:2px 7px;border-radius:5px;letter-spacing:.04em}
+  .blk-in{padding:0 12px 12px;display:flex;flex-direction:column;gap:12px;font-size:14px}
+  .k-warm{--k:var(--gold);--ks:var(--gold-soft)}
+  .k-bat{--k:var(--red);--ks:var(--red-soft)}
+  .k-field{--k:var(--green);--ks:var(--green-soft)}
+  .k-game{--k:var(--blue);--ks:var(--blue-soft)}
+  .k-admin{--k:var(--ink-faint);--ks:var(--surface-2)}
+  .cues{margin:0;padding:0;list-style:none;display:flex;flex-direction:column;gap:6px}
+  .cues li{padding-left:16px;position:relative}
+  .cues li::before{content:"";position:absolute;left:2px;top:.62em;width:6px;height:6px;border-radius:50%;background:var(--k,var(--red))}
+  .lbl{font-size:11px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-faint);margin-bottom:4px}
+  .ask{font-style:italic;color:var(--ink-soft)}
+  .ref{font-size:12px;color:var(--ink-faint)}
+  .ref b{font-weight:500;color:var(--ink-soft)}
+
+  .drill{border:1px solid var(--border);border-radius:10px;background:var(--paper)}
+  .drill>summary{padding:9px 11px}
+  .drill-no{font-family:var(--mono);font-size:11.5px;color:var(--k,var(--red-ink));font-weight:500}
+  .drill-name{font-weight:600;font-size:14px}
+  .drill-in{padding:0 11px 11px;display:flex;flex-direction:column;gap:8px;font-size:13.5px}
+  .drill-in ol{margin:0;padding-left:18px;display:flex;flex-direction:column;gap:3px}
+  .adj{display:grid;grid-template-columns:1fr 1fr;gap:6px}
+  .adj div{background:var(--surface-2);border-radius:8px;padding:7px 9px;font-size:12.5px}
+  .adj b{display:block;font-size:10.5px;letter-spacing:.07em;text-transform:uppercase;color:var(--ink-faint)}
+
+  .rot{width:100%;border-collapse:collapse;font-size:13px}
+  .rot th,.rot td{padding:6px 4px;text-align:left;border-bottom:1px solid var(--border)}
+  .rot th{font-size:11px;color:var(--ink-faint);font-weight:600;letter-spacing:.05em;text-transform:uppercase}
+  .rot td.mono{color:var(--ink-faint)}
+
+  /* roster */
+  .roster{display:flex;flex-direction:column}
+  .pl{display:grid;grid-template-columns:28px 1fr auto;gap:10px;align-items:center;padding:8px 0;border-top:1px solid var(--border)}
+  .pl:first-child{border-top:0}
+  .att{width:26px;height:26px;border-radius:50%;border:1.5px solid var(--border-strong);background:transparent;display:grid;place-items:center;padding:0}
+  .att[aria-pressed="true"]{background:var(--green);border-color:var(--green);color:#fff}
+  .pl-name{font-size:14px;font-weight:500;min-width:0}
+  .pl-name small{display:block;font-size:11.5px;color:var(--ink-faint);font-weight:400}
+  .rates{display:flex;gap:4px}
+  .rate{width:30px;height:28px;border-radius:7px;border:1px solid var(--border);background:var(--surface-2);font-family:var(--mono);font-size:12px;font-weight:500;padding:0;color:var(--ink-faint)}
+  .rate.r1{background:var(--red-soft);color:var(--red-ink);border-color:transparent}
+  .rate.r2{background:var(--gold-soft);color:var(--gold);border-color:transparent}
+  .rate.r3{background:var(--green-soft);color:var(--green);border-color:transparent}
+  .legend{display:flex;flex-wrap:wrap;gap:10px;font-size:12px;color:var(--ink-faint)}
+  .rate-heads{display:grid;grid-template-columns:28px 1fr auto;gap:10px;font-size:10.5px;color:var(--ink-faint);text-transform:uppercase;letter-spacing:.05em;font-weight:600;padding-bottom:4px}
+  .rate-heads .rates span{width:30px;text-align:center}
+  textarea{width:100%;border:1px solid var(--border-strong);border-radius:10px;background:var(--surface);padding:10px;resize:vertical;min-height:84px;font-size:14px}
+  .input{width:100%;border:1px solid var(--border-strong);border-radius:10px;background:var(--surface);padding:10px;font-size:14px}
+  .example{font-size:11px;font-weight:600;color:var(--gold);background:var(--gold-soft);padding:2px 7px;border-radius:5px;letter-spacing:.03em}
+
+  /* student */
+  .kid-hero{background:var(--turf);color:var(--turf-ink);border-radius:18px;padding:18px 16px;display:flex;flex-direction:column;gap:12px;position:relative;overflow:hidden}
+  .kid-hero h1{font-family:var(--display);font-size:28px;line-height:1.08;margin:0;font-weight:700;letter-spacing:-.015em;text-wrap:balance;max-width:15ch}
+  .kid-hero .eyebrow{color:var(--turf-faint)}
+  .kid-hero svg.ball{position:absolute;right:-26px;top:-20px;width:130px;height:130px;opacity:.9}
+  .prog{display:flex;align-items:center;gap:10px;font-size:12.5px;color:var(--turf-faint)}
+  .prog .track{flex:1;height:6px;background:rgba(255,255,255,.14);border-radius:99px;overflow:hidden}
+  .prog .track i{display:block;height:100%;background:var(--turf-ink)}
+  .cuecards{display:grid;grid-auto-flow:column;grid-auto-columns:78%;gap:10px;overflow-x:auto;scroll-snap-type:x mandatory;padding-bottom:6px;margin-inline:-16px;padding-inline:16px;scroll-padding-inline:16px}
+  .cue{scroll-snap-align:start;border-radius:14px;padding:14px;display:flex;flex-direction:column;gap:6px;background:var(--ks);border:1px solid color-mix(in srgb,var(--k) 25%,transparent)}
+  .cue .eyebrow{color:var(--k)}
+  .cue q{font-family:var(--display);font-size:22px;font-weight:700;line-height:1.1;quotes:none;color:var(--ink)}
+  .cue p{margin:0;font-size:13.5px;color:var(--ink-soft)}
+  .kstep{display:grid;grid-template-columns:46px 1fr;gap:10px;padding:9px 0;border-top:1px solid var(--border)}
+  .kstep:first-child{border-top:0}
+  .kstep .t{font-family:var(--mono);font-size:12.5px;color:var(--ink-faint);padding-top:1px}
+  .kstep b{display:block;font-size:14.5px}
+  .kstep span{font-size:13.5px;color:var(--ink-soft)}
+  .score{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:10px 0;border-top:1px solid var(--border)}
+  .score:first-child{border-top:0}
+  .score div{min-width:0}
+  .score b{display:block;font-size:14.5px;font-weight:600}
+  .score small{font-size:12px;color:var(--ink-faint)}
+  .stepper{display:flex;align-items:center;gap:4px;flex:none}
+  .stepper button{width:34px;height:34px;border-radius:9px;border:1px solid var(--border-strong);background:var(--surface);font-size:18px;line-height:1;padding:0}
+  .stepper output{min-width:48px;text-align:center;font-family:var(--mono);font-size:16px;font-weight:500}
+  .feel{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+  .feel button{border:1px solid var(--border-strong);background:var(--surface);border-radius:12px;padding:10px 6px;display:flex;flex-direction:column;align-items:center;gap:4px;font-size:13px;font-weight:600}
+  .feel button[aria-pressed="true"]{border-color:var(--green);background:var(--green-soft);color:var(--green)}
+  .feel svg{width:28px;height:28px}
+  .badge{display:flex;gap:14px;align-items:center;padding:14px;border-radius:14px;border:1.5px dashed var(--border-strong);background:var(--surface)}
+  .badge.on{border-style:solid;border-color:var(--gold);background:var(--gold-soft)}
+  .badge svg{flex:none;width:56px;height:56px}
+  .badge b{font-family:var(--display);font-size:18px;display:block}
+  .badge span{font-size:13px;color:var(--ink-soft)}
+
+  /* program */
+  .road{display:grid;grid-template-columns:repeat(26,1fr);gap:2px;margin-top:6px}
+  .road i{height:26px;border-radius:3px;background:var(--surface-2)}
+  .road i.cur{background:var(--red)}
+  .road i.p2{background:color-mix(in srgb,var(--gold) 45%,var(--surface-2))}
+  .road i.p3{background:color-mix(in srgb,var(--green) 45%,var(--surface-2))}
+  .road i.p4{background:color-mix(in srgb,var(--blue) 45%,var(--surface-2))}
+  .road-lbl{display:grid;grid-template-columns:repeat(4,auto);gap:8px;margin-top:10px}
+  .phase{font-size:12px;line-height:1.3}
+  .phase b{display:block;font-size:12.5px}
+  .phase .sw{display:inline-block;width:8px;height:8px;border-radius:2px;margin-right:5px}
+  .months{display:grid;grid-template-columns:repeat(6,1fr);font-family:var(--mono);font-size:10.5px;color:var(--ink-faint);margin-top:4px}
+  .wk{background:var(--surface);border:1px solid var(--border);border-radius:14px}
+  .wk.cur{border-color:var(--red)}
+  .wk>summary{padding:12px 14px;align-items:flex-start}
+  .wk-no{font-family:var(--mono);font-size:12px;color:var(--ink-faint)}
+  .wk-title{font-family:var(--display);font-weight:600;font-size:17px;line-height:1.2;margin-top:1px}
+  .load{display:flex;gap:3px;margin-top:6px;align-items:center;font-size:11px;color:var(--ink-faint)}
+  .load i{width:14px;height:4px;border-radius:2px;background:var(--border)}
+  .load i.on{background:var(--ink-soft)}
+  .wk-in{padding:0 14px 14px;display:flex;flex-direction:column;gap:12px}
+  .two{display:grid;grid-template-columns:1fr;gap:10px}
+  .strand{border-radius:10px;padding:10px 12px;background:var(--ks)}
+  .strand .lbl{color:var(--k)}
+  .strand ul{margin:0;padding-left:16px;font-size:13.5px;display:flex;flex-direction:column;gap:2px}
+  .strand .dr{margin-top:6px;font-size:12.5px;color:var(--ink-soft)}
+  .days{display:flex;flex-direction:column;gap:6px}
+  .day{display:flex;justify-content:space-between;align-items:center;gap:10px;padding:9px 11px;border-radius:10px;background:var(--surface-2);font-size:13.5px;border:0;text-align:left;width:100%}
+  .day b{font-family:var(--mono);font-weight:500;font-size:12px;color:var(--ink-faint);margin-right:6px}
+  .day.go{background:var(--red);color:#fff}
+  .day.go b{color:rgba(255,255,255,.75)}
+  .mile{font-size:13px;display:flex;gap:8px;align-items:flex-start;color:var(--ink-soft)}
+  .mile svg{flex:none;margin-top:2px;color:var(--gold)}
+
+  /* syllabus */
+  .cov{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+  .cov .card{padding:12px}
+  .cov .big{font-family:var(--display);font-size:28px;font-weight:700;line-height:1}
+  .cov .big small{font-size:15px;color:var(--ink-faint);font-weight:500}
+  .meter{height:5px;border-radius:9px;background:var(--surface-2);margin-top:8px;overflow:hidden}
+  .meter i{display:block;height:100%;background:var(--k)}
+  .part{background:var(--surface);border:1px solid var(--border);border-radius:14px}
+  .part>summary{padding:12px 14px}
+  .part-in{padding:0 14px 12px;display:flex;flex-direction:column;gap:12px}
+  .chap-t{font-weight:600;font-size:14.5px;display:flex;gap:8px;align-items:baseline;flex-wrap:wrap}
+  .chap-t .mono{font-size:11.5px;color:var(--ink-faint);font-weight:400}
+  .topics{list-style:none;margin:6px 0 0;padding:0;display:flex;flex-direction:column;gap:4px}
+  .topics li{display:flex;justify-content:space-between;gap:10px;font-size:13.5px;padding:5px 8px;border-radius:7px;align-items:flex-start}
+  .topics li.used{background:var(--ks)}
+  .wkchips{display:flex;gap:3px;flex:none;flex-wrap:wrap;justify-content:flex-end}
+  .wkchips span{font-family:var(--mono);font-size:10.5px;padding:1px 5px;border-radius:4px;background:var(--surface);color:var(--k);border:1px solid color-mix(in srgb,var(--k) 30%,transparent)}
+  .note{font-size:12.5px;color:var(--ink-faint);line-height:1.5}
+  .state{padding:40px 20px;text-align:center;color:var(--ink-soft)}
+  .state code{font-family:var(--mono);font-size:12.5px;background:var(--surface-2);padding:2px 5px;border-radius:4px}
+
+  /* animation player */
+  .anim{background:var(--surface-2);border-radius:12px;overflow:hidden;border:1px solid var(--border)}
+  .anim svg{display:block;width:100%;height:auto}
+  .anim-cap{display:flex;align-items:center;gap:8px;padding:8px 10px 4px;background:var(--surface)}
+  .anim-cap p{margin:0;flex:1;font-size:13.5px;font-weight:600;line-height:1.3;min-height:2.6em;display:flex;align-items:center}
+  .icon-btn{width:34px;height:34px;border-radius:50%;border:0;background:var(--ink);color:var(--paper);display:grid;place-items:center;flex:none;padding:0}
+  .slow{border:1px solid var(--border-strong);background:var(--surface);border-radius:999px;font-size:11.5px;font-weight:600;padding:5px 10px;flex:none;color:var(--ink-soft)}
+  .slow[aria-pressed="true"]{background:var(--gold-soft);border-color:var(--gold);color:var(--gold)}
+  .phases{display:flex;gap:4px;padding:0 10px 6px;background:var(--surface)}
+  .phases button{flex:1;height:18px;border:0;background:none;padding:0;position:relative}
+  .phases button::after{content:"";position:absolute;left:0;right:0;top:7px;height:4px;border-radius:9px;background:var(--border)}
+  .phases button.on::after{background:var(--red)}
+  .an-lbl{font:600 9px var(--sans);fill:var(--ink-soft)}
+  .an-hi{font:700 11px var(--sans);fill:var(--red-ink)}
+  .an-dot{font:700 7.5px var(--sans);fill:#fff}
+
+  /* gamification */
+  .xp{background:var(--surface);border:1px solid var(--border);border-radius:16px;padding:14px;display:flex;flex-direction:column;gap:10px;box-shadow:var(--shadow)}
+  .lvl{display:flex;align-items:center;gap:12px}
+  .lvl svg{width:50px;height:50px;flex:none}
+  .lvl b{font-family:var(--display);font-size:20px;display:block;line-height:1.1}
+  .lvl span{font-size:12.5px;color:var(--ink-faint)}
+  .xpbar{height:10px;border-radius:99px;background:var(--surface-2);overflow:hidden}
+  .xpbar i{display:block;height:100%;background:linear-gradient(90deg,var(--gold),var(--red));border-radius:99px;transition:width .7s cubic-bezier(.2,.8,.2,1)}
+  .xp-foot{display:flex;justify-content:space-between;font-size:12px;color:var(--ink-faint)}
+  .stats{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+  .stat{background:var(--surface-2);border-radius:10px;padding:8px 6px;text-align:center}
+  .stat b{font-family:var(--display);font-size:21px;display:block;line-height:1.1}
+  .stat span{font-size:11px;color:var(--ink-faint)}
+  .quest{display:grid;grid-template-columns:1fr auto;gap:5px 10px;padding:10px 0;border-top:1px solid var(--border);align-items:center}
+  .quest:first-child{border-top:0}
+  .quest b{font-size:14px;font-weight:600}
+  .quest .rw{font-family:var(--mono);font-size:12px;color:var(--gold);font-weight:500}
+  .quest .qbar{grid-column:1/-1;height:6px;border-radius:9px;background:var(--surface-2);overflow:hidden}
+  .quest .qbar i{display:block;height:100%;background:var(--green);transition:width .5s}
+  .quest.done b{color:var(--green)}
+  .quest small{font-family:var(--mono);font-size:11.5px;color:var(--ink-faint)}
+  .kstep{grid-template-columns:46px 1fr 34px;align-items:start}
+  .tick{width:32px;height:32px;border-radius:50%;border:1.5px solid var(--border-strong);background:var(--surface);display:grid;place-items:center;padding:0;color:transparent}
+  .tick[aria-pressed="true"]{background:var(--green);border-color:var(--green);color:#fff;animation:pop .35s cubic-bezier(.2,1.5,.4,1)}
+  .clips{display:flex;flex-wrap:wrap;gap:6px;margin-top:6px}
+  .watch{display:inline-flex;align-items:center;gap:5px;border:1px solid var(--border-strong);background:var(--surface);border-radius:999px;padding:4px 10px 4px 7px;font-size:12px;font-weight:600;color:var(--ink)}
+  .watch.seen{border-color:var(--green);color:var(--green);background:var(--green-soft)}
+  .watch svg{width:14px;height:14px}
+  .cue .watch{align-self:flex-start;margin-top:4px}
+
+  .toasts{position:fixed;left:50%;transform:translateX(-50%);bottom:calc(88px + env(safe-area-inset-bottom,0px));z-index:50;display:flex;flex-direction:column;align-items:center;gap:6px;pointer-events:none;width:min(440px,100%)}
+  .toast{background:var(--ink);color:var(--paper);padding:8px 16px;border-radius:999px;font-weight:600;font-size:14px;animation:toast 1.7s ease forwards;display:flex;gap:6px;align-items:center;box-shadow:var(--shadow)}
+  .toast b{color:var(--gold-soft)}
+  .toast.bt{animation-duration:2.8s;background:var(--gold);color:#1B2621}
+  @keyframes toast{0%{opacity:0;transform:translateY(14px) scale(.9)}12%{opacity:1;transform:none}80%{opacity:1;transform:translateY(-6px)}100%{opacity:0;transform:translateY(-24px)}}
+  @keyframes pop{from{transform:scale(.5);opacity:0}}
+  @keyframes fade{from{opacity:0}}
+  @keyframes up{from{transform:translateY(40px);opacity:0}}
+  @keyframes fall{to{transform:translateY(460px) rotate(600deg);opacity:0}}
+  @keyframes pulse{0%{transform:scale(1);opacity:.55}100%{transform:scale(1.9);opacity:0}}
+  .overlay{position:fixed;inset:0;z-index:60;background:rgba(10,16,13,.55);display:grid;place-items:center;padding:16px;animation:fade .25s}
+  .lvlup{background:var(--surface);border-radius:20px;padding:26px 20px 20px;text-align:center;max-width:320px;width:100%;position:relative;overflow:hidden;animation:pop .5s cubic-bezier(.2,1.4,.4,1);display:flex;flex-direction:column;align-items:center;gap:8px}
+  .lvlup svg{width:84px;height:84px}
+  .lvlup h3{font-family:var(--display);font-size:28px;margin:0;line-height:1.1}
+  .lvlup p{margin:0 0 6px;color:var(--ink-soft);font-size:14px}
+  .confetti i{position:absolute;top:-14px;width:8px;height:12px;border-radius:2px;animation:fall 1.9s ease-in forwards}
+  .sheet-wrap{position:fixed;inset:0;z-index:55;background:rgba(10,16,13,.5);display:flex;align-items:flex-end;justify-content:center;animation:fade .2s}
+  .sheet{background:var(--paper);width:min(440px,100%);border-radius:20px 20px 0 0;padding:10px 16px calc(18px + env(safe-area-inset-bottom,0px));display:flex;flex-direction:column;gap:12px;animation:up .3s cubic-bezier(.2,.8,.2,1);max-height:92%;overflow:auto}
+  .grab{width:40px;height:4px;border-radius:9px;background:var(--border-strong);margin:0 auto 4px}
+  .sheet-head{display:flex;justify-content:space-between;align-items:center;gap:10px}
+
+  .shelf{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+  .bdg{background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:12px 6px 10px;text-align:center;display:flex;flex-direction:column;align-items:center;gap:5px}
+  .bdg svg{width:52px;height:52px}
+  .bdg b{font-size:12.5px;line-height:1.2}
+  .bdg span{font-size:11px;color:var(--ink-faint);line-height:1.3}
+  .bdg.on{border-color:var(--gold);background:var(--gold-soft)}
+  .bdg.on svg{animation:pop .5s cubic-bezier(.2,1.4,.4,1)}
+  .bdg.off svg{opacity:.5}
+  .lb{position:relative}
+  .lb-row{position:absolute;left:0;right:0;height:44px;display:grid;grid-template-columns:26px 30px 1fr auto;gap:10px;align-items:center;padding:0 10px;border-radius:10px;transition:top .7s cubic-bezier(.2,.8,.2,1)}
+  .lb-row.me{background:var(--red-soft)}
+  .lb-row .rk{font-family:var(--mono);color:var(--ink-faint);font-size:13px}
+  .lb-row .av{width:30px;height:30px;border-radius:50%;display:grid;place-items:center;font-size:12px;font-weight:700;color:#fff}
+  .lb-row .nm{font-weight:600;font-size:14px}
+  .chips{display:flex;gap:6px;overflow-x:auto;padding-bottom:4px}
+  .chip{border:1px solid var(--border-strong);background:var(--surface);border-radius:999px;padding:6px 12px;font-size:13px;font-weight:600;white-space:nowrap;display:inline-flex;gap:6px;align-items:center}
+  .chip[aria-pressed="true"]{background:var(--ink);color:var(--paper);border-color:var(--ink)}
+  .chip .dotc{width:7px;height:7px;border-radius:50%;background:var(--green)}
+  .journey svg{width:100%;height:auto;display:block}
+  .jnode{cursor:pointer}
+  .jnode:focus-visible{outline:none}
+  .jnode:focus-visible circle.face{stroke:var(--red);stroke-width:3}
+  .pulse{animation:pulse 1.6s ease-out infinite;transform-origin:center;transform-box:fill-box}
+  .jlbl{font:600 10.5px var(--sans);fill:var(--ink-faint)}
+</style>
+
+<div id="root"><div class="app"><div class="state">Loading the syllabus…</div></div></div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/react/18.3.1/umd/react.production.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/18.3.1/umd/react-dom.production.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/htm@3.1.1/dist/htm.umd.js"></script>
+<script>
+const { useState, useEffect, useMemo, useRef } = React;
+const html = htm.bind(React.createElement);
+const SYLLABUS_URL = "./Cricket-Coaching-Syllabus.json";
+
+/* ------------------------------------------------------------------
+   PLAN LAYER — no new data file. Every topic below is a reference to an
+   id in Cricket-Coaching-Syllabus.json; titles are resolved at runtime.
+   Drill numbers point at the Drills Library (p6) in The Coaching Crease.
+------------------------------------------------------------------- */
+const PROGRAM = {
+  name: "Bat & Field Foundations",
+  block: "Block 1 of 4 · Weeks 1–8 of the 6-month plan",
+  squad: "U12–U14 · 16 players",
+  rhythm: "3 sessions a week · 90 min",
+  periodisationRef: ["ch18-t1", "ch18-t2"],
+  phases: [
+    { cls: "cur", weeks: 8, title: "Bat & Field Foundations", sub: "Wk 1–8 · pre-season", sw: "var(--red)" },
+    { cls: "p2", weeks: 8, title: "Shot range & pressure", sub: "Wk 9–16 · early season", sw: "var(--gold)" },
+    { cls: "p3", weeks: 6, title: "Game craft", sub: "Wk 17–22 · in-season", sw: "var(--green)" },
+    { cls: "p4", weeks: 4, title: "Review & IDPs", sub: "Wk 23–26 · transition", sw: "var(--blue)" },
+  ],
+};
+
+const WEEKS = [
+  { n: 1, title: "Grip, stance & safe hands", load: 1,
+    bat: { topics: ["ch9-t1", "ch9-t2"], drills: [11, 12, 13] },
+    field: { topics: ["ch12-t1", "ch12-t2"], drills: [41, 44] },
+    also: ["ch8-t1", "ch8-t3", "ch6-t1", "ch20-t2"],
+    days: ["Grip, stance & safe hands", "The long barrier & first throws", "Game day: Pairs Cricket (69)"],
+    milestone: "Baseline check recorded for every player" },
+  { n: 2, title: "Backlift, the V & the barrier", load: 2,
+    bat: { topics: ["ch9-t3"], drills: [13, 14, 15] },
+    field: { topics: ["ch12-t2"], drills: [44, 45] },
+    days: ["Backlift & hitting the V", "Barrier to walk-in pick-up", "Game day: Team Relay Fielding Race (100)"],
+    milestone: "Every batter can freeze a backlift with the face open to gully" },
+  { n: 3, title: "Front-foot drives & the attacking pick-up", load: 2,
+    bat: { topics: ["ch9-t5"], drills: [12, 14, 20] },
+    field: { topics: ["ch12-t2", "ch12-t3"], drills: [45, 46] },
+    days: ["Straight & cover drive", "Attack the ball, hit the stump", "Game day: Zone-Scoring Game (73)"],
+    milestone: "Drives finish balanced, head over the ball" },
+  { n: 4, title: "Reading length; the crow-hop throw", load: 3,
+    bat: { topics: ["ch9-t4"], drills: [15, 16, 17] },
+    field: { topics: ["ch12-t3"], drills: [46, 47, 48] },
+    days: ["Forward or back?", "Crow-hop & chase-turn-throw", "Game day: Beat-the-Field Singles (91)"],
+    milestone: "Mid-block check: Hit the V 4/6 or better" },
+  { n: 5, title: "Running between wickets; run-outs", load: 3,
+    bat: { topics: ["ch9-t6"], drills: [21, 63, 64, 65, 66] },
+    field: { topics: ["ch12-t4"], drills: [50, 53] },
+    days: ["Call it loud, turn for two", "Backing up & the Star Drill", "Game day: No-Boundary Game (74)"],
+    milestone: "Every pair uses yes / no / wait calls in games" },
+  { n: 6, title: "Back-foot play; close & flat catching", load: 4,
+    bat: { topics: ["ch9-t5"], drills: [18, 16] },
+    field: { topics: ["ch12-t1"], drills: [42, 43, 51] },
+    days: ["Back-foot punch zone", "Flat, close & slip catching", "Game day: Fielding-Side Pressure Game (90)"],
+    milestone: "Catching success rate logged per player" },
+  { n: 7, title: "Placement, sweep & team fielding", load: 4,
+    bat: { topics: ["ch9-t5", "ch16-t3"], drills: [19, 20] },
+    field: { topics: ["ch12-t5", "ch12-t6"], drills: [49, 54] },
+    days: ["Placement points & the sweep", "Fielding circuit & positions map", "Game day: Captain's Game (85)"],
+    milestone: "Each player names 6 fielding positions on the map" },
+  { n: 8, title: "Put it together & re-test", load: 3,
+    bat: { topics: ["ch9-t8", "ch9-t2"], drills: [22, 68] },
+    field: { topics: ["ch12-t7"], drills: [54] },
+    also: ["ch20-t3", "ch20-t4"],
+    days: ["Innings simulation", "Re-test: batting & fielding", "Mini-Tournament Finisher (102)"],
+    milestone: "Re-test done and an IDP written for every player" },
+];
+
+const DRILL_NAMES = {
+  1:"Cricket Tag",3:"Dynamic Mobility Line",6:"Shadow Skills Round",11:"Grip & Mirror Check",12:"Drop-Ball Drive",13:"Tee / Cone Hitting",
+  14:"Hit the V (Target Drive)",15:"Colour / Number Ball",16:"Length Reaction (Forward or Back)",17:"Gate Defence",18:"Back-Foot Punch Zone",
+  19:"Sweep Progression",20:"Placement Points",21:"Two-Run Game",22:"Innings Simulation",41:"Soft-Hands High Catch",42:"Flat-Catch Reactions",
+  43:"Slip Cradle / Edge Catching",44:"The Long Barrier",45:"Attacking Walk-In Pick-Up",46:"Throw at a Single Stump",47:"Crow-Hop Long Throw",
+  48:"Chase, Turn & Throw",49:"Sliding Stop / Boundary Save",50:"Backing-Up Relay",51:"Reaction Close-Catch",53:"Star Drill",54:"Fielding Circuit",
+  63:"Call It Loud",64:"Turn for Two",65:"Backing-Up Habit",66:"Beat the Throw",68:"Ones & Twos Decision Game",80:"One-Hand-One-Bounce Yard Game",99:"Catching Knockout",
+};
+
+/* Full cards for the drills used on Day 1 (from The Coaching Crease, Drills Library). */
+const DRILLS = {
+  1: { tags:"whole group · cones, bibs", run:["Mark a 15×15 m square; 2–3 taggers in bibs.","Tagged players do 3 shadow drives or 5 fast feet to rejoin.","Swap taggers every 60–90 s."], coach:"Heads up, change direction, use space. Warm and smiling, not queuing.", easier:"Bigger square, more taggers", harder:"Smaller square; tag with a ball" },
+  3: { tags:"whole group · cones 20 m", run:["High knees, heel flicks, lunge-twist, side shuffles, leg swings, arm circles.","Build gentle → sharper: walking lunges → skipping → strides.","Finish with two run-throughs at ~75%."], coach:"Full, controlled range. Keep it flowing, not static.", easier:"Shorter distance, fewer moves", harder:"Carry a ball; combine two moves" },
+  6: { tags:"whole group · bats optional", run:["Shadow forward defence, drive, catch, throw on the coach's call.","3–5 slow reps each, then two at game speed."], coach:"Rehearses today's focus with no ball pressure.", easier:"Slower, fewer patterns", harder:"Link backlift → stride → drive in flow" },
+  11:{ tags:"pairs · bat", run:["Pick the bat up off the ground naturally.","Check both Vs point down the back edge, hands together.","Lift to backlift and freeze; partner checks the face points at gully.","Repeat, loosening the bottom hand to 'light'."], coach:"V-alignment, hands together, light bottom hand. Fix this before anything else.", easier:"Coach places hands", harder:"Eyes closed, then check" },
+  12:{ tags:"pairs · bat, soft balls", run:["Feeder holds a ball at waist height and drops it.","Batter steps forward and drives along the ground after one bounce.","Stationary first, then a small stride. 10 reps, swap."], coach:"Head over the ball, straight bat, hit it along the ground.", easier:"Ball on a cone, no drop", harder:"Drop to varying spots" },
+  13:{ tags:"pairs · tee, bat, balls", run:["Tee full and straight; stride and hit down the ground.","Groove 8–10, then move the tee wider for the cover drive."], coach:"Full swing, still head, balanced finish.", easier:"Bigger, softer ball; lower tee", harder:"Coach calls the shot at set-up" },
+  41:{ tags:"pairs · 1 ball", run:["Feeder lobs a high ball.","Catcher gets under it early, reverse cup: fingers up, little fingers together.","Watch it into the fingers and give downward. 10 each, swap."], coach:"Under it early, right cup, soft give. Call 'mine!' loudly.", easier:"Lower, softer lobs", harder:"Higher; make them move under it" },
+  44:{ tags:"pairs 12–15 m · 1 ball", run:["Feeder rolls firmly along the ground.","Fielder goes side-on, one knee down behind the line, hands together.","Gather, stand, return. 10 each."], coach:"Body behind the line, knee-down barrier: the safe first technique.", easier:"Slower rolls, straight at them", harder:"Angle it so they move first" },
+  80:{ tags:"whole group · bat, soft ball", run:["Informal game: batter is out to any catch, including one-hand-one-bounce.","Whoever gets the batter out bats next."], coach:"Fun, inclusive, alert. Watch who can already grip and stand still.", easier:"Bigger space, softer ball", harder:"Smaller space" },
+  99:{ tags:"whole group · balls", run:["Group in a semicircle; coach feeds catches.","Drop it and lose a life; last player standing wins.","Change the catch type each round: high, flat, low."], coach:"Catching under pressure; concentration.", easier:"Lives system, softer feeds", harder:"Sudden death" },
+};
+
+/* Week 1 · Day 1, built whole–part–whole (ch17-t2) with a RAMP warm-up (ch8-t3). */
+const DAY1 = {
+  title: "Grip, stance & safe hands",
+  outcome: "Every player leaves with a repeatable grip and a still stance, and can take a high catch with the reverse cup.",
+  outcomeRef: "ch17-t1",
+  meta: ["90 min", "U12–U14", "16 players", "2 coaches", "Nets + outfield"],
+  checklist: [
+    { id:"c1", t:"Ground walk: glass, holes, wet patches", ref:"appx-t3" },
+    { id:"c2", t:"First-aid kit, ice, water & shade ready", ref:"ch8-t5" },
+    { id:"c3", t:"Emergency Action Plan printed & on the bench", ref:"ch8-t5" },
+    { id:"c4", t:"Consent & medical forms in for all 16", s:"New squad, first session", ref:"ch6-t1" },
+    { id:"c5", t:"Two adults present at all times", s:"Rule of two", ref:"ch6-t2" },
+    { id:"c6", t:"Helmets sized and on for every batter", ref:"ch8-t1" },
+    { id:"c7", t:"Bats sized: handle at the hip when standing", ref:"ch9-t1" },
+  ],
+  blocks: [
+    { id:"b1", min:10, kind:"admin", title:"Welcome & squad promise", drills:[],
+      coach:["Names and one fact each: learn every name today.","Explain today's outcome in one sentence.","Agree the squad promise: effort, respect, Spirit of Cricket."],
+      ask:"What does a good team-mate do when someone drops a catch?", refs:["ch1-t4","ch4-t3"],
+      kid:"Sign in, fill your water bottle, meet your coaches." },
+    { id:"b2", min:12, kind:"warm", title:"RAMP warm-up", drills:[1,3,6],
+      coach:["Raise: Cricket Tag (5 min).","Mobilise: Dynamic Mobility Line (4 min).","Potentiate: Shadow Skills with today's grip and cup (3 min)."],
+      refs:["ch8-t3","ch14-t4"], kid:"Tag game, then moving warm-ups, then shadow shots." },
+    { id:"b3", min:10, kind:"game", title:"Whole: taster game", drills:[80],
+      coach:["Let them play; say almost nothing.","Coach 1 notes grips and head position; Coach 2 notes catching hands.","Pick 3 players to show 'good' examples later."],
+      ask:"When did you feel in control of the bat?", refs:["ch3-t1","ch4-t2"], kid:"Play a fun game; everyone bats and fields." },
+    { id:"b4", min:25, kind:"bat", title:"Part: batting stations", drills:[11,12,13], rotation:true,
+      coach:["3 groups of 5–6; 8 min per station, 30 s to change.","Coach 1 runs Grip & Mirror; Coach 2 floats between Drop-Ball and Tee.","One cue per player per station. External cue first: 'hit the cone'."],
+      step:"STEP: easier with a bigger ball and a cone tee; harder with the coach calling the shot at set-up.",
+      ask:"Where did the two Vs point when the ball went straight?", refs:["ch9-t1","ch9-t2","ch6-t6","ch4-t1"],
+      kid:"Three stations: check your grip, drop-ball drives, tee hitting." },
+    { id:"b5", min:3, kind:"admin", title:"Drinks & shade", drills:[], coach:["Everyone drinks, not just the thirsty ones.","Quick check: any sore hands or knocks?"], refs:["ch8-t5"], kid:"Water break." },
+    { id:"b6", min:15, kind:"field", title:"Part: catching & the long barrier", drills:[41,44],
+      coach:["Pairs, soft balls first. High catches 7 min, long barrier 7 min.","Cue: 'Cup, watch, give'. Then 'knee down, body behind'."],
+      step:"Mixed ability: pair a confident catcher with a new one; the feeder sets the height.",
+      ask:"Why does the knee go down behind the ball?", refs:["ch12-t1","ch12-t2","ch5-t2"],
+      kid:"High catches with a partner, then stopping the ball with a long barrier." },
+    { id:"b7", min:10, kind:"game", title:"Whole: Catching Knockout", drills:[99],
+      coach:["Lives system for the first round so nobody sits out long.","Praise the process: 'great early feet', not just 'great catch'."],
+      refs:["ch4-t4"], kid:"Catching Knockout: last one standing wins." },
+    { id:"b8", min:5, kind:"admin", title:"Cool-down & review", drills:[],
+      coach:["Walk-and-stretch cool-down.","Two questions, three answers each.","Set the home task; say who showed great effort."],
+      ask:"Show me your grip. What is one thing you will practise at home?", refs:["ch14-t4","ch4-t3"],
+      kid:"Stretch, share one thing you learned, get your home task." },
+  ],
+  roster: ["Aarav S.","Ishaan R.","Diya M.","Kabir N.","Anaya P.","Vihaan K.","Riya T.","Arjun D.","Meera J.","Reyansh B.","Saanvi G.","Aditya V.","Zoya F.","Krish L.","Tara H.","Dev A."],
+  baseline: [["G","Grip V","ch9-t1"],["S","Still stance","ch9-t2"],["C","Catch cup","ch12-t1"],["B","Long barrier","ch12-t2"]],
+  cues: [
+    { k:"bat", tag:"Grip", q:"Two Vs down the back edge", p:"Hands together, bottom hand light, like holding an egg." },
+    { k:"bat", tag:"Stance", q:"Still head, eyes level", p:"Feet shoulder-width, weight on the balls of your feet." },
+    { k:"field", tag:"Catching", q:"Cup, watch, give", p:"Fingers up, little fingers together, soft hands down to your chest." },
+    { k:"field", tag:"Ground fielding", q:"Knee down, body behind", p:"Make a wall so the ball can't get past you." },
+  ],
+  kit: ["Bat (handle reaches your hip)","Helmet","Water bottle, 1 litre","Cap & sunscreen","Trainers or spikes"],
+  scores: [
+    { id:"s1", t:"Drop-ball drives along the ground", max:10, sub:"Out of 10" },
+    { id:"s2", t:"Hit the tee cone", max:10, sub:"Out of 10" },
+    { id:"s3", t:"High catches taken", max:10, sub:"Out of 10" },
+    { id:"s4", t:"Catching Knockout round reached", max:8, sub:"Rounds" },
+  ],
+  home: [
+    { id:"h1", t:"Shadow drives in a mirror", s:"3 sets of 10. Check your two Vs before each set." },
+    { id:"h2", t:"Wall catches with a tennis ball", s:"50 catches. Cup, watch, give." },
+  ],
+};
+
+const KIND = { admin:"Admin", warm:"Warm-up", bat:"Batting", field:"Fielding", game:"Game" };
+
+/* Which clips each block and cue card links to */
+Object.assign(DAY1.blocks[1], { clips:["stance"] });
+Object.assign(DAY1.blocks[3], { clips:["grip","drive"], anim:"rotation" });
+Object.assign(DAY1.blocks[5], { clips:["catch","barrier"] });
+Object.assign(DAY1.blocks[6], { clips:["catch"] });
+DAY1.cues.forEach((c, i) => { c.clip = ["grip","stance","catch","barrier"][i]; });
+
+/* ------------------------------------------------------------------
+   ANIMATION ENGINE — keyframed poses for a side-on player, plus
+   keyframed items (ball, dots, labels) for top-down drill diagrams.
+------------------------------------------------------------------- */
+const easeIO = u => u < .5 ? 2*u*u : 1 - Math.pow(-2*u + 2, 2) / 2;
+function lerpV(a, b, u){
+  if (typeof a === "number") return typeof b === "number" ? a + (b - a) * u : a;
+  if (Array.isArray(a)) return a.map((x, i) => lerpV(x, b ? b[i] : x, u));
+  if (a && typeof a === "object"){ const o = {}; for (const k in a) o[k] = b && k in b ? lerpV(a[k], b[k], u) : a[k]; return o; }
+  return a;
+}
+function sampleKeys(keys, t, linear){
+  if (t <= keys[0].t) return keys[0];
+  for (let i = 0; i < keys.length - 1; i++){
+    const a = keys[i], b = keys[i + 1];
+    if (t <= b.t){ const u = b.t === a.t ? 1 : (t - a.t) / (b.t - a.t); return lerpV(a, b, linear ? u : easeIO(u)); }
+  }
+  return keys[keys.length - 1];
+}
+const fill = keys => { let prev = { o: 1 }; return keys.map(k => (prev = { ...prev, ...k })); };
+const sh = (p, dx, dy = 0) => Object.fromEntries(Object.entries(p).map(([k, [x, y]]) => [k, [x + dx, y + dy]]));
+const reduceMotion = (() => { try { return matchMedia("(prefers-reduced-motion: reduce)").matches; } catch(e){ return false; } })();
+
+/* poses: side-on, facing right. b = back limb, f = front limb */
+const POSE = {
+  upright:{head:[114,44],neck:[113,56],hip:[114,94],bk:[106,117],bf:[100,140],fk:[122,117],ff:[130,140],be:[106,74],bh:[120,90],fe:[112,76],fh:[122,91]},
+  stance:{head:[116,50],neck:[113,62],hip:[114,98],bk:[104,119],bf:[98,140],fk:[126,119],ff:[132,140],be:[106,80],bh:[121,95],fe:[112,82],fh:[123,96]},
+  stride:{head:[134,52],neck:[128,64],hip:[124,100],bk:[108,122],bf:[98,140],fk:[148,117],ff:[160,140],be:[122,78],bh:[114,64],fe:[130,78],fh:[116,66]},
+  contact:{head:[146,56],neck:[139,68],hip:[127,102],bk:[110,124],bf:[98,140],fk:[150,118],ff:[162,140],be:[136,88],bh:[150,97],fe:[142,86],fh:[152,98]},
+  follow:{head:[146,55],neck:[139,67],hip:[128,101],bk:[114,124],bf:[102,137],fk:[150,118],ff:[162,140],be:[156,64],bh:[152,46],fe:[158,68],fh:[155,49]},
+  ready:{head:[92,50],neck:[92,62],hip:[92,98],bk:[86,119],bf:[82,140],fk:[100,119],ff:[104,140],be:[82,80],bh:[84,96],fe:[102,80],fh:[100,96]},
+  cup:{head:[130,49],neck:[132,62],hip:[132,98],bk:[126,119],bf:[122,140],fk:[140,119],ff:[144,140],be:[122,48],bh:[128,30],fe:[142,48],fh:[136,30]},
+  give:{head:[130,54],neck:[132,66],hip:[132,102],bk:[124,121],bf:[122,140],fk:[142,121],ff:[144,140],be:[120,82],bh:[129,70],fe:[144,82],fh:[135,70]},
+  fReady:{head:[112,52],neck:[112,64],hip:[112,98],bk:[104,118],bf:[98,140],fk:[120,118],ff:[126,140],be:[104,82],bh:[110,98],fe:[122,82],fh:[118,98]},
+  barrier:{head:[134,78],neck:[126,86],hip:[114,112],bk:[108,138],bf:[86,139],fk:[134,116],ff:[132,140],be:[131,106],bh:[136,130],fe:[134,106],fh:[140,130]},
+  gather:{head:[128,70],neck:[122,80],hip:[114,112],bk:[108,138],bf:[86,139],fk:[134,116],ff:[132,140],be:[118,100],bh:[128,92],fe:[126,100],fh:[132,92]},
+};
+POSE.back = { ...POSE.stance, be:[112,78], bh:[104,66], fe:[120,78], fh:[106,68] };
+
+function Figure({ p, bat }){
+  const L = (a, b) => html`<line x1=${p[a][0]} y1=${p[a][1]} x2=${p[b][0]} y2=${p[b][1]}/>`;
+  let batEl = null;
+  if (bat != null){
+    const cx = (p.bh[0] + p.fh[0]) / 2, cy = (p.bh[1] + p.fh[1]) / 2, r = bat * Math.PI / 180, dx = Math.cos(r), dy = Math.sin(r);
+    batEl = html`<g stroke-linecap="round"><line x1=${cx - dx*7} y1=${cy - dy*7} x2=${cx + dx*8} y2=${cy + dy*8} stroke="var(--ink-soft)" stroke-width="3"/><line x1=${cx + dx*9} y1=${cy + dy*9} x2=${cx + dx*42} y2=${cy + dy*42} stroke="var(--bat)" stroke-width="7"/></g>`;
+  }
+  const limb = { stroke:"var(--ink)", "stroke-width":6, "stroke-linecap":"round", "stroke-linejoin":"round", fill:"none" };
+  return html`<g>
+    <g ...${limb} opacity=".45">${L("neck","be")}${L("be","bh")}${L("hip","bk")}${L("bk","bf")}</g>
+    <g ...${limb}>${L("neck","hip")}${L("hip","fk")}${L("fk","ff")}</g>
+    ${batEl}
+    <g ...${limb}>${L("neck","fe")}${L("fe","fh")}</g>
+    <circle cx=${p.head[0]} cy=${p.head[1]} r="9" fill="var(--ink)"/>
+    <circle cx=${p.bh[0]} cy=${p.bh[1]} r="3.4" fill="var(--skin)"/><circle cx=${p.fh[0]} cy=${p.fh[1]} r="3.4" fill="var(--skin)"/>
+  </g>`;
+}
+
+/* item builders */
+const ball = (keys, linear = true) => ({ keys: fill(keys), linear, draw: s => s.o > .01 && html`<g transform=${`translate(${s.x} ${s.y})`} opacity=${s.o}><circle r="4.6" fill="var(--red)"/><path d="M-2.4 -3.6 Q-.6 0 -2.4 3.6 M2.4 -3.6 Q.6 0 2.4 3.6" stroke="#F5F4EE" stroke-width=".8" fill="none"/></g>` });
+const label = (x, y, text, keys, cls = "an-lbl", anchor = "middle") => ({ keys: fill(keys), draw: s => s.o > .01 && html`<text x=${x} y=${y} class=${cls} text-anchor=${anchor} opacity=${s.o}>${text}</text>` });
+const guide = (x1, y1, x2, y2, keys) => ({ keys: fill(keys), draw: s => s.o > .01 && html`<line x1=${x1} y1=${y1} x2=${x2} y2=${y2} stroke="var(--red)" stroke-width="1.6" stroke-dasharray="4 3" opacity=${s.o}/>` });
+const dot = (color, text, keys, r = 7) => ({ keys: fill(keys), draw: s => html`<g transform=${`translate(${s.x} ${s.y})`} opacity=${s.o}><circle r=${r} fill=${color} stroke="var(--surface)" stroke-width="1.5"/>${text && html`<text y="2.8" text-anchor="middle" class="an-dot">${text}</text>`}</g>` });
+const show = (a, b, fade = .2) => [{ t:0, o:0 }, { t:a, o:0 }, { t:a + fade, o:1 }, { t:b, o:1 }, { t:b + fade, o:0 }];
+
+const GRASS = () => html`<rect width="240" height="160" fill="var(--grass)"/>`;
+
+function driveSpec(variant){
+  const fig = fill([
+    { t:0, p:POSE.stance, bat:115 }, { t:.7, p:POSE.stance, bat:115 }, { t:1.3, p:POSE.back, bat:252 }, { t:1.7, p:POSE.back, bat:252 },
+    { t:2.1, p:POSE.stride, bat:246 }, { t:2.45, p:POSE.contact, bat:95 }, { t:2.9, p:POSE.follow, bat:-55 }, { t:3.9, p:POSE.follow, bat:-55 }, { t:4.6, p:POSE.stance, bat:115 },
+  ]);
+  const items = [];
+  let bg = null;
+  if (variant === "drop"){
+    items.push({ keys: fill(show(.9, 1.45)), draw: s => s.o > .01 && html`<g opacity=${s.o}><line x1="196" y1="38" x2="163" y2="80" stroke="var(--skin)" stroke-width="5" stroke-linecap="round"/><text x="198" y="34" class="an-lbl">feeder</text></g>` });
+    items.push(ball([{ t:0, x:158, y:86, o:0 }, { t:1.25, o:0 }, { t:1.3, o:1 }, { t:1.75, y:137 }, { t:2.45, x:150, y:131 }, { t:3.1, x:250, y:136 }, { t:3.12, o:0 }]));
+  }
+  if (variant === "tee"){
+    bg = () => html`<g><line x1="150" y1="132" x2="150" y2="140" stroke="var(--ink-soft)" stroke-width="3"/><rect x="142" y="139" width="16" height="3" rx="1" fill="var(--ink-soft)"/></g>`;
+    items.push(ball([{ t:0, x:150, y:127, o:1 }, { t:2.45, x:150, y:127 }, { t:3.1, x:250, y:136 }, { t:3.12, o:0 }, { t:4.4, x:150, y:127, o:0 }, { t:4.6, o:1 }]));
+  }
+  if (variant !== "shadow"){
+    items.push(guide(164, 150, 232, 150, show(2.6, 3.9)));
+    items.push(label(198, 158, "along the ground", show(2.6, 3.9)));
+  } else {
+    items.push(label(200, 30, "no ball: groove it", show(.2, 4.4)));
+  }
+  return { id: "drive-" + variant, title: variant === "tee" ? "Tee drive" : variant === "shadow" ? "Shadow drive" : "Front-foot drive", dur: 4.9, ground: true, rest: 2.45, figure: fig, items, bg,
+    captions: [{ t:0, text:"Still stance, head level" }, { t:1, text:"Backlift: bat face opens towards gully" }, { t:1.75, text: variant === "tee" ? "Stride to the ball on the tee" : "Stride to the pitch of the ball" }, { t:2.42, text:"Head over the ball, straight bat" }, { t:2.9, text:"Balanced finish: hold the pose" }] };
+}
+
+const ANIMS = {
+  drive: driveSpec("drop"), tee: driveSpec("tee"), shadow: driveSpec("shadow"),
+
+  stance: { id:"stance", title:"Stance & set-up", dur:5.6, ground:true, rest:2.4,
+    figure: fill([{ t:0, p:POSE.upright, bat:112 }, { t:.6 }, { t:1.4, p:POSE.stance, bat:115 }, { t:2.4 }, { t:2.7, bat:104 }, { t:3, bat:115 }, { t:3.3, bat:104 }, { t:3.6, bat:115 }, { t:4.8 }, { t:5.4, p:POSE.upright, bat:112 }]),
+    items: [
+      guide(66, 50, 186, 50, show(1.7, 4.7)), label(190, 47, "eyes level", show(1.7, 4.7), "an-lbl", "start"),
+      guide(98, 150, 132, 150, show(1.1, 4.7)), label(115, 158, "shoulder-width", show(1.1, 4.7)),
+      { keys: fill(show(2.3, 4.6)), draw: s => s.o > .01 && html`<circle cx="116" cy="50" r="14" fill="none" stroke="var(--red)" stroke-width="1.6" stroke-dasharray="3 3" opacity=${s.o}/>` },
+      label(62, 30, "head still", show(2.4, 4.6), "an-hi"),
+    ],
+    captions: [{ t:0, text:"Stand relaxed, side-on" }, { t:1, text:"Feet shoulder-width, knees soft" }, { t:1.8, text:"Eyes level, weight on the balls of the feet" }, { t:2.5, text:"Tap the bat. The head doesn't move." }] },
+
+  grip: { id:"grip", title:"The grip", dur:6.2, rest:3.4,
+    bg: () => html`<g><rect x="112" y="0" width="16" height="120" rx="5" fill="var(--ink-soft)"/>${[14,24,94,104].map(y => html`<line key=${y} x1="112" y1=${y} x2="128" y2=${y + 5} stroke="var(--surface-2)" stroke-width="1" opacity=".5"/>`)}<rect x="96" y="116" width="48" height="60" rx="7" fill="var(--bat)"/></g>`,
+    items: [
+      ...[[30, [{ t:0, dx:-70, o:1 }, { t:.4 }, { t:1.1, dx:0 }, { t:5.8 }, { t:6.1, o:0 }]], [60, [{ t:0, dx:80, o:1 }, { t:1.2 }, { t:1.9, dx:0 }, { t:4.2 }, { t:4.5, o:.5 }, { t:4.8, o:1 }, { t:5.1, o:.5 }, { t:5.4, o:1 }, { t:5.8 }, { t:6.1, o:0 }]]].map(([y, keys]) => ({ keys: fill(keys),
+        draw: s => s.o > .01 && html`<g opacity=${s.o} transform=${`translate(${s.dx} 0)`}><rect x="103" y=${y} width="34" height="28" rx="11" fill="var(--skin)"/>${[8,14,20].map(d => html`<line key=${d} x1="108" y1=${y + d} x2="133" y2=${y + d} stroke="rgba(0,0,0,.18)" stroke-width="1.2"/>`)}</g>` })),
+      ...[[32, 2.0], [62, 2.4]].map(([y, at]) => ({ keys: fill([{ t:0, k:0, o:1 }, { t:at, k:0 }, { t:at + .5, k:1 }, { t:5.8 }, { t:6.1, o:0 }]),
+        draw: s => s.k > .01 && html`<path d=${`M111 ${y} L120 ${y + 12} L129 ${y}`} fill="none" stroke="var(--red)" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="26" stroke-dashoffset=${(1 - s.k) * 26} opacity=${s.o}/>` })),
+      guide(120, 46, 120, 118, show(2.9, 5.8)),
+      label(146, 40, "Vs point down", show(2.9, 5.8), "an-lbl", "start"), label(146, 51, "the back edge", show(2.9, 5.8), "an-lbl", "start"),
+      guide(98, 31, 98, 87, show(3.4, 5.8)), label(94, 62, "together", show(3.4, 5.8), "an-lbl", "end"),
+      label(146, 80, "light bottom hand", show(4.2, 5.8), "an-hi", "start"),
+    ],
+    captions: [{ t:0, text:"Pick the bat up naturally" }, { t:1.1, text:"Top hand on" }, { t:1.9, text:"Bottom hand on, touching the top hand" }, { t:2.4, text:"Both Vs point down the back edge" }, { t:4.2, text:"Bottom hand light: it only guides" }] },
+
+  catch: { id:"catch", title:"High catch", dur:4.6, ground:true, rest:2.2,
+    figure: fill([{ t:0, p:POSE.ready }, { t:.6 }, { t:1.3, p:sh(POSE.ready, 38) }, { t:1.7, p:POSE.cup }, { t:2.2 }, { t:2.6, p:POSE.give }, { t:3.6 }, { t:4.3, p:POSE.ready }]),
+    items: [
+      ball([{ t:0, x:0, y:110, o:0 }, { t:.3, o:1 }, { t:.8, x:38, y:34 }, { t:1.3, x:80, y:6 }, { t:1.8, x:116, y:12 }, { t:2.2, x:132, y:28 }, { t:2.6, x:132, y:66 }, { t:3.6 }, { t:3.7, o:0 }]),
+      label(158, 40, "MINE!", show(.9, 1.6), "an-hi"),
+      { keys: fill(show(2.2, 3.4)), draw: s => s.o > .01 && html`<path d="M150 36 q8 16 0 32" fill="none" stroke="var(--red)" stroke-width="1.6" stroke-dasharray="3 3" marker-end="" opacity=${s.o}/>` },
+      label(172, 56, "give", show(2.3, 3.4), "an-lbl"),
+    ],
+    captions: [{ t:0, text:"Ready: eyes on the ball" }, { t:.9, text:"Call “MINE!” loud and early" }, { t:1.3, text:"Get under it: reverse cup, fingers up" }, { t:2.1, text:"Watch it into the fingers" }, { t:2.5, text:"Give: soft hands down to the chest" }] },
+
+  barrier: { id:"barrier", title:"The long barrier", dur:4.3, ground:true, rest:1.9,
+    figure: fill([{ t:0, p:POSE.fReady }, { t:.5 }, { t:1.2, p:POSE.barrier }, { t:2.1 }, { t:2.5, p:POSE.gather }, { t:3, p:POSE.fReady }, { t:3.9 }]),
+    items: [
+      ball([{ t:0, x:250, y:136, o:0 }, { t:.3, o:1 }, { t:2, x:141, y:136 }, { t:2.5, x:130, y:90 }, { t:3, x:115, y:96 }, { t:3.9 }, { t:4, o:0 }]),
+      guide(146, 96, 146, 140, show(1.2, 2.1)), label(158, 92, "the wall", show(1.2, 2.1)),
+    ],
+    captions: [{ t:0, text:"Walk in, ready" }, { t:.5, text:"Get your body in line with the ball" }, { t:1.2, text:"Knee down: make a wall" }, { t:2.1, text:"Gather with hands together" }, { t:2.6, text:"Stand tall, ready to throw" }] },
+
+  tag: (() => {
+    let seed = 11; const r = () => (seed = (seed * 16807) % 2147483647) / 2147483647;
+    const items = Array.from({ length: 10 }, (_, i) => {
+      const pts = Array.from({ length: 4 }, () => [52 + r() * 136, 28 + r() * 104]);
+      return dot(i < 3 ? "var(--red)" : "var(--ink-soft)", i < 3 ? "T" : "", [...pts.map((p, j) => ({ t: j * 1.6, x: p[0], y: p[1] })), { t:6.4, x: pts[0][0], y: pts[0][1] }], 6);
+    });
+    items.push(label(120, 154, "3 shadow drives to rejoin", show(2.4, 4.4), "an-hi"));
+    return { id:"tag", title:"Cricket Tag", dur:6.4, rest:1, items,
+      bg: () => html`<g>${GRASS()}<rect x="40" y="16" width="160" height="128" fill="none" stroke="var(--grass-line)" stroke-width="1.5" stroke-dasharray="5 4"/>${[[40,16],[200,16],[40,144],[200,144]].map(([x, y]) => html`<path key=${x + "-" + y} d=${`M${x} ${y - 5} l5 9 h-10z`} fill="var(--gold)"/>`)}</g>`,
+      captions: [{ t:0, text:"Taggers (T) chase inside the 15 m square" }, { t:2.4, text:"Tagged? Three shadow drives, then back in" }, { t:4.6, text:"Swap taggers every 60–90 seconds" }] };
+  })(),
+
+  knockout: (() => {
+    const F = [120, 144], pts = Array.from({ length: 6 }, (_, i) => { const a = (160 - i * 28) * Math.PI / 180; return [120 + 88 * Math.cos(a), 144 - 88 * Math.sin(a)]; });
+    const keys = [{ t:0, x:F[0], y:F[1], o:1 }];
+    pts.forEach(([x, y], i) => {
+      const t0 = i * 1.1;
+      if (i !== 3) keys.push({ t:t0 + .45, x, y }, { t:t0 + .55, x, y }, { t:t0 + 1, x:F[0], y:F[1] });
+      else keys.push({ t:t0 + .45, x, y }, { t:t0 + .7, x: x + (x - 120) * .3, y: y + (y - 144) * .3 }, { t:t0 + .72, o:0 }, { t:t0 + .95, x:F[0], y:F[1], o:0 }, { t:t0 + 1, o:1 });
+    });
+    const items = pts.map(([x, y], i) => dot("var(--blue)", String(i + 1), i === 3 ? [{ t:0, x, y, o:1 }, { t:3.9 }, { t:4.3, o:.25 }, { t:6.7 }, { t:7, o:1 }] : [{ t:0, x, y }], 8));
+    items.push(dot("var(--red)", "C", [{ t:0, x:F[0], y:F[1] + 6 }], 8));
+    items.push(ball(keys));
+    items.push(label(pts[3][0] + 18, pts[3][1] - 8, "OUT", show(4, 5.8), "an-hi"));
+    return { id:"knockout", title:"Catching Knockout", dur:7, rest:.5, items, bg: GRASS,
+      captions: [{ t:0, text:"Coach (C) feeds a catch to each player in turn" }, { t:3.3, text:"Drop it and you're out (or lose a life)" }, { t:4.5, text:"Last one standing is King of the Catch" }] };
+  })(),
+
+  rotation: (() => {
+    const S = [[62, 52], [178, 52], [120, 118]], names = ["Grip & Mirror", "Drop-Ball", "Tee"], col = ["var(--red)", "var(--gold)", "var(--blue)"];
+    const off = [[-11, -5], [11, -5], [0, 9], [-9, 10], [9, 10]];
+    const T = [0, 1.8, 2.8, 4.6, 5.6, 7.4, 8.4];
+    const items = [];
+    [0, 1, 2].forEach(g => off.forEach(([ox, oy]) => {
+      const at = k => S[(g + k) % 3];
+      const seq = [0, 0, 1, 1, 2, 2, 0];
+      items.push(dot(col[g], "", seq.map((k, j) => ({ t: T[j], x: at(k)[0] + ox, y: at(k)[1] + oy })), 5));
+    }));
+    return { id:"rotation", title:"Station rotation", dur:8.8, rest:0, items,
+      bg: () => html`<g>${GRASS()}${S.map(([x, y], i) => html`<g key=${i}><circle cx=${x} cy=${y} r="27" fill="var(--surface)" opacity=".75" stroke="var(--border-strong)"/><text x=${x} y=${i === 2 ? y + 40 : y - 32} text-anchor="middle" class="an-lbl">${names[i]}</text></g>`)}<path d="M92 44 q28 -14 56 0 M188 82 q-6 28 -40 42 M92 124 q-30 -16 -30 -44" fill="none" stroke="var(--grass-line)" stroke-width="1.5" stroke-dasharray="4 3"/></g>`,
+      captions: [{ t:0, text:"0:32 · Groups A (red), B (gold), C (blue) start" }, { t:1.8, text:"Whistle: rotate clockwise, 30 s to change" }, { t:2.8, text:"0:40 · Second station" }, { t:5.6, text:"0:48 · Third station" }, { t:7.4, text:"0:56 · Done: drinks" }] };
+  })(),
+};
+const DRILL_ANIM = { 1:"tag", 6:"shadow", 11:"grip", 12:"drive", 13:"tee", 41:"catch", 44:"barrier", 99:"knockout" };
+const CLIP_LIST = ["grip", "stance", "drive", "catch", "barrier"];
+
+function ActionPlayer({ spec, onWatched, autoPlay = true }){
+  const [t, setT] = useState(reduceMotion ? spec.rest || 0 : 0);
+  const [playing, setPlaying] = useState(autoPlay && !reduceMotion);
+  const [slow, setSlow] = useState(false);
+  const ref = useRef(null), acc = useRef(0), fired = useRef(false), cb = useRef(onWatched);
+  cb.current = onWatched;
+  useEffect(() => { setT(reduceMotion ? spec.rest || 0 : 0); acc.current = 0; fired.current = false; }, [spec.id]);
+  useEffect(() => {
+    if (!playing) return;
+    let raf, last = performance.now(), vis = true;
+    const io = new IntersectionObserver(([e]) => { vis = e.isIntersecting; });
+    if (ref.current) io.observe(ref.current);
+    const tick = now => {
+      const dt = Math.min(.1, (now - last) / 1000) * (slow ? .35 : 1); last = now;
+      if (vis){
+        setT(x => (x + dt) % spec.dur);
+        acc.current += dt;
+        if (!fired.current && acc.current >= spec.dur){ fired.current = true; cb.current && cb.current(spec.id); }
+      }
+      raf = requestAnimationFrame(tick);
+    };
+    raf = requestAnimationFrame(tick);
+    return () => { cancelAnimationFrame(raf); io.disconnect(); };
+  }, [playing, slow, spec]);
+  const fig = spec.figure && sampleKeys(spec.figure, t);
+  const ci = spec.captions.reduce((a, c, i) => c.t <= t ? i : a, 0);
+  return html`<div class="anim" ref=${ref}>
+    <svg viewBox="0 0 240 160" role="img" aria-label=${spec.title + ". " + spec.captions.map(c => c.text).join(". ")}>
+      ${spec.ground && html`<g><rect width="240" height="160" fill="var(--surface-2)"/><rect y="140" width="240" height="20" fill="var(--grass)"/><line x1="0" y1="140" x2="240" y2="140" stroke="var(--grass-line)" stroke-width="1.5"/></g>`}
+      ${spec.bg && spec.bg()}
+      ${fig && html`<${Figure} p=${fig.p} bat=${fig.bat}/>`}
+      ${spec.items.map((it, i) => html`<g key=${i}>${it.draw(sampleKeys(it.keys, t, it.linear))}</g>`)}
+    </svg>
+    <div class="anim-cap">
+      <button class="icon-btn" onClick=${() => setPlaying(p => !p)} aria-label=${playing ? "Pause" : "Play"}>
+        ${playing ? html`<svg width="14" height="14" viewBox="0 0 14 14"><rect x="3" y="2" width="3" height="10" rx="1" fill="currentColor"/><rect x="8" y="2" width="3" height="10" rx="1" fill="currentColor"/></svg>`
+                  : html`<svg width="14" height="14" viewBox="0 0 14 14"><path d="M4 2.5v9l7.5-4.5z" fill="currentColor"/></svg>`}
+      </button>
+      <p>${spec.captions[ci].text}</p>
+      <button class="slow" aria-pressed=${slow ? "true" : "false"} onClick=${() => { setSlow(s => !s); setPlaying(true); }}>Slow-mo</button>
+    </div>
+    <div class="phases">${spec.captions.map((c, i) => html`<button key=${i} class=${i <= ci ? "on" : ""} aria-label=${"Jump to: " + c.text} onClick=${() => { setPlaying(false); setT(c.t + .02); }}></button>`)}</div>
+  </div>`;
+}
+
+/* ------------------------------------------------------------------
+   GAMIFICATION — XP is derived from what the student has done, so it
+   can never drift out of sync with the ticks and scores.
+------------------------------------------------------------------- */
+const LEVELS = [[0, "Net Rookie"], [150, "Club Colt"], [350, "County Cadet"], [600, "State Squad"], [1000, "Test Cap"]];
+const count = o => Object.values(o).filter(Boolean).length;
+const BADGES = [
+  { id:"kit", name:"Kit Captain", how:"Pack every item", glyph:"M5 14a7 7 0 0 1 14 0v2H5z M9 16v3 M15 16v3", test: s => s.kit.every(Boolean) },
+  { id:"straight", name:"Straight Bat", how:"7+ drop-ball drives", glyph:"M12 3v5 M10 8h4l-.5 12h-3z", test: s => s.scores.s1 >= 7 },
+  { id:"safe", name:"Safe Hands", how:"5+ high catches", glyph:"M5 11c0 5 3 8 7 8s7-3 7-8 M12 4.5a2.5 2.5 0 1 0 .01 0", test: s => s.scores.s3 >= 5 },
+  { id:"king", name:"King of the Catch", how:"Round 6 in Knockout", glyph:"M4 17h16l-1-9-4 4-3-6-3 6-4-4z", test: s => s.scores.s4 >= 6 },
+  { id:"film", name:"Film Study", how:"Watch all 5 clips", glyph:"M9 7v10l8-5z", test: s => count(s.watched) >= 5 },
+  { id:"full", name:"Full Session", how:"Tick all 8 blocks", glyph:"M6 12.5l4 4 8-9", test: s => count(s.done) >= 8 },
+  { id:"home", name:"Home Hero", how:"Both home tasks", glyph:"M4 11l8-7 8 7v9H4z M10 20v-5h4v5", test: s => count(s.home) >= 2 },
+  { id:"think", name:"Thinker", how:"Share how it felt", glyph:"M9 17h6 M10 20h4 M12 3a6 6 0 0 0-3.5 10.9V17h7v-3.1A6 6 0 0 0 12 3z", test: s => s.feel > 0 && s.learned.trim().length > 0 },
+  { id:"streak", name:"On a Roll", how:"3 sessions in a row", glyph:"M12 3c1 4 5 5 5 10a5 5 0 0 1-10 0c0-3 2-4 2-6 2 1 3 3 3 3s1-4 0-7z", test: () => false },
+];
+const QUESTS = [
+  { id:"q1", t:"Watch 3 technique clips", xp:40, prog: s => [Math.min(count(s.watched), 3), 3] },
+  { id:"q2", t:"Hit 7 drop-ball drives along the ground", xp:40, prog: s => [Math.min(s.scores.s1, 7), 7] },
+  { id:"q3", t:"Tick off every session block", xp:60, prog: s => [count(s.done), 8] },
+];
+
+function useStudent(){
+  const [kit, setKit] = useStored("kit", [true, true, true, false, false]);
+  const [done, setDone] = useStored("done", { b1:true, b2:true });
+  const [scores, setScores] = useStored("scores", { s1:6, s2:0, s3:0, s4:0 });
+  const [feel, setFeel] = useStored("feel", 0);
+  const [learned, setLearned] = useStored("learned", "");
+  const [home, setHome] = useStored("home", { h1:false, h2:false });
+  const [watched, setWatched] = useStored("watched", { drive:true });
+  const s = { kit, done, scores, feel, learned, home, watched };
+  const badges = BADGES.map(b => ({ ...b, on: b.test(s) }));
+  const quests = QUESTS.map(q => { const [v, max] = q.prog(s); return { ...q, v, max, on: v >= max }; });
+  const xp = kit.filter(Boolean).length * 5 + count(done) * 15 + Object.values(scores).reduce((a, b) => a + b, 0) * 2
+    + (feel ? 10 : 0) + (learned.trim() ? 15 : 0) + count(home) * 30 + count(watched) * 10
+    + quests.filter(q => q.on).reduce((a, q) => a + q.xp, 0) + badges.filter(b => b.on).length * 25;
+  const li = LEVELS.reduce((a, l, i) => xp >= l[0] ? i : a, 0);
+  const next = LEVELS[li + 1];
+  return { ...s, setKit, setDone, setScores, setFeel, setLearned, setHome, setWatched, badges, quests, xp, level: li + 1, levelName: LEVELS[li][1],
+    pct: next ? (xp - LEVELS[li][0]) / (next[0] - LEVELS[li][0]) * 100 : 100, toNext: next ? next[0] - xp : 0, nextName: next ? next[1] : null,
+    streak: count(done) >= 8 ? 1 : 0, watch: id => setWatched(w => w[id] ? w : { ...w, [id]: true }) };
+}
+
+const Medal = ({ glyph, on }) => html`<svg viewBox="0 0 56 56" aria-hidden="true">
+  <path d="M19 38 15 53l7-3.5 4.5 4.5 2-14Z M37 38l4 15-7-3.5-4.5 4.5-2-14Z" fill=${on ? "var(--red)" : "var(--border-strong)"}/>
+  <circle cx="28" cy="25" r="19" fill=${on ? "var(--gold)" : "var(--surface-2)"} stroke=${on ? "var(--gold)" : "var(--border-strong)"} stroke-width="1.5"/>
+  <circle cx="28" cy="25" r="14.5" fill="none" stroke=${on ? "rgba(255,255,255,.55)" : "var(--border)"} stroke-width="1"/>
+  <g transform="translate(16 13)"><path d=${glyph} fill="none" stroke=${on ? "#fff" : "var(--ink-faint)"} stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"/></g>
+</svg>`;
+const LevelBadge = ({ n }) => html`<svg viewBox="0 0 50 50" aria-hidden="true">
+  <path d="M25 2 45 13.5v23L25 48 5 36.5v-23Z" fill="var(--turf)"/>
+  <path d="M25 7 40.5 16v18L25 43 9.5 34V16Z" fill="none" stroke="var(--gold)" stroke-width="1.5"/>
+  <text x="25" y="31" text-anchor="middle" style=${{ font:"700 17px var(--display)", fill:"var(--turf-ink)" }}>${n}</text>
+</svg>`;
+const PlayGlyph = () => html`<svg viewBox="0 0 14 14" aria-hidden="true"><circle cx="7" cy="7" r="6.3" fill="none" stroke="currentColor" stroke-width="1.3"/><path d="M5.6 4.3v5.4L9.8 7z" fill="currentColor"/></svg>`;
+
+/* ---------- helpers ---------- */
+const store = {
+  get(k, d){ try { const v = localStorage.getItem("bff:"+k); return v == null ? d : JSON.parse(v); } catch(e){ return d; } },
+  set(k, v){ try { localStorage.setItem("bff:"+k, JSON.stringify(v)); } catch(e){} },
+};
+function useStored(k, d){
+  const [v, setV] = useState(() => store.get(k, d));
+  useEffect(() => { store.set(k, v); }, [k, v]);
+  return [v, setV];
+}
+function indexSyllabus(data){
+  const byId = {};
+  (function walk(n, part, chapter){
+    if (!n) return;
+    byId[n.id] = { ...n, part, chapter };
+    const p = n.type === "part" ? n : part;
+    const c = (n.type === "chapter" || n.type === "appendix") ? n : chapter;
+    (n.children || []).forEach(ch => walk(ch, p, c));
+    (n.topics || []).forEach(t => walk(t, p, c));
+  })(data.root, null, null);
+  return byId;
+}
+const fmt = s => { const m = Math.floor(s/60), r = Math.floor(s%60); return m + ":" + String(r).padStart(2,"0"); };
+const hm = m => Math.floor(m/60) + ":" + String(m%60).padStart(2,"0");
+
+/* ---------- icons ---------- */
+const Chev = () => html`<svg class="chev" width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M6 3.5 10.5 8 6 12.5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>`;
+const Ball = ({ size = 30, cls = "" }) => html`<svg class=${cls} width=${size} height=${size} viewBox="0 0 40 40" aria-hidden="true"><circle cx="20" cy="20" r="18" fill="#B23A2E"/><path d="M8 7c6 7 6 19 0 26M32 7c-6 7-6 19 0 26" stroke="#F5F4EE" stroke-width="1.6" fill="none" stroke-dasharray="2.2 2.2"/></svg>`;
+const NavIcon = ({ name }) => {
+  const p = { today:"M4 6h16M4 12h16M4 18h10", program:"M4 5h16v15H4zM4 10h16M9 3v4M15 3v4", syllabus:"M5 4h9l5 5v11H5zM14 4v5h5M8 13h8M8 17h6",
+    journey:"M6 20a2 2 0 1 0 0-.01M18 6a2 2 0 1 0 0-.01M6 18V9a3 3 0 0 1 6 0v6a3 3 0 0 0 6 0V8", trophies:"M8 4h8v5a4 4 0 0 1-8 0zM8 6H5a3 3 0 0 0 3 4M16 6h3a3 3 0 0 1-3 4M12 13v4M8 20h8M10 17h4v3h-4z" }[name];
+  return html`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d=${p}/></svg>`;
+};
+const Face = ({ mood }) => {
+  const mouth = { 1:"M9 16c1.5-1.5 4.5-1.5 6 0", 2:"M9 15h6", 3:"M8.5 14c1.8 2.4 5.2 2.4 7 0" }[mood];
+  return html`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><circle cx="12" cy="12" r="9.5"/><circle cx="9" cy="10" r=".9" fill="currentColor"/><circle cx="15" cy="10" r=".9" fill="currentColor"/><path d=${mouth}/></svg>`;
+};
+
+/* ---------- shared bits ---------- */
+function Refs({ ids, T }){
+  if (!ids || !ids.length) return null;
+  return html`<div class="ref">Syllabus: ${ids.map((id, i) => html`<span key=${id}>${i ? " · " : ""}<b>${T(id)}</b> <span class="mono">${id}</span></span>`)}</div>`;
+}
+function DrillCard({ n }){
+  const d = DRILLS[n];
+  if (!d) return html`<div class="drill" style=${{ padding:"9px 11px" }}><span class="drill-no">Drill ${n}</span> <span class="drill-name">${DRILL_NAMES[n]}</span></div>`;
+  return html`<details class="drill fold">
+    <summary><div><span class="drill-no">Drill ${String(n).padStart(2,"0")}</span><div class="drill-name">${DRILL_NAMES[n]}</div><div class="ref">${d.tags}</div></div><${Chev}/></summary>
+    <div class="drill-in">
+      ${DRILL_ANIM[n] && html`<${ActionPlayer} spec=${ANIMS[DRILL_ANIM[n]]}/>`}
+      <ol>${d.run.map((r, i) => html`<li key=${i}>${r}</li>`)}</ol>
+      <div><span class="lbl">Coach</span><div>${d.coach}</div></div>
+      <div class="adj"><div><b>Easier</b>${d.easier}</div><div><b>Harder</b>${d.harder}</div></div>
+    </div>
+  </details>`;
+}
+
+/* ---------- coach: day 1 ---------- */
+function CoachToday({ T }){
+  const blocks = DAY1.blocks;
+  const starts = useMemo(() => { let a = 0; return blocks.map(b => { const s = a; a += b.min; return s; }); }, []);
+  const total = blocks.reduce((a, b) => a + b.min, 0) * 60;
+  const [elapsed, setElapsed] = useStored("elapsed", 0);
+  const [running, setRunning] = useState(false);
+  const [checks, setChecks] = useStored("checks", { c1:true, c2:true, c3:true, c4:false, c5:true, c6:false, c7:false });
+  const [att, setAtt] = useStored("att", DAY1.roster.map((_, i) => i !== 6 && i !== 13));
+  const [rates, setRates] = useStored("rates", { "0":[3,2,2,3], "1":[2,2,1,2], "2":[1,2,3,2], "3":[2,1,2,1] });
+  const [note, setNote] = useStored("note", "");
+
+  useEffect(() => {
+    if (!running) return;
+    const id = setInterval(() => setElapsed(e => { if (e + 1 >= total) { setRunning(false); return total; } return e + 1; }), 1000);
+    return () => clearInterval(id);
+  }, [running]);
+
+  const cur = Math.max(0, starts.findIndex((s, i) => elapsed < (s + blocks[i].min) * 60));
+  const started = elapsed > 0;
+  const nextBlock = () => setElapsed(cur < blocks.length - 1 ? starts[cur + 1] * 60 : total);
+  const nChecked = DAY1.checklist.filter(c => checks[c.id]).length;
+  const present = att.filter(Boolean).length;
+
+  return html`<div class="screen">
+    <section class="hero">
+      <div class="eyebrow">Week 1 · Day 1 of 24 · Batting-led</div>
+      <h1>${DAY1.title}</h1>
+      <div class="meta">${DAY1.meta.map(m => html`<span class="pill" key=${m}>${m}</span>`)}</div>
+      <div class="outcome"><b>Session outcome</b>${DAY1.outcome}</div>
+    </section>
+
+    <section class="timer" aria-label="Session timer">
+      <div class="timer-row">
+        <div class="now"><span>${!started ? "Up first" : elapsed >= total ? "Finished" : "Now"}</span><b>${elapsed >= total ? "Session complete" : blocks[cur].title}</b></div>
+        <div class="clock">${fmt(elapsed)}<small> / 90:00</small></div>
+      </div>
+      <div class="bar" aria-hidden="true">${blocks.map((b, i) => {
+        const s = starts[i]*60, e = s + b.min*60;
+        const cls = elapsed >= e ? "done" : elapsed > s ? "live" : "";
+        const p = cls === "live" ? ((elapsed - s) / (b.min*60) * 100) + "%" : "0%";
+        return html`<i key=${b.id} class=${cls} style=${{ flex: b.min, "--p": p }}></i>`;
+      })}</div>
+      <div class="btns">
+        <button class="btn" onClick=${() => setRunning(r => !r)}>${running ? "Pause" : started ? "Resume" : "Start session"}</button>
+        <button class="btn ghost" onClick=${nextBlock} disabled=${elapsed >= total}>Next block</button>
+        ${started && html`<button class="btn ghost" onClick=${() => { setRunning(false); setElapsed(0); }}>Reset</button>`}
+      </div>
+    </section>
+
+    <details class="card pad fold" open=${nChecked < DAY1.checklist.length}>
+      <summary><h2 class="sec">Before they arrive</h2><span style=${{ display:"flex", gap:8, alignItems:"center" }}><span class="done-count">${nChecked}/${DAY1.checklist.length}</span><${Chev}/></span></summary>
+      <div style=${{ marginTop:8 }}>
+        ${DAY1.checklist.map(c => html`<div class="check" key=${c.id}>
+          <input type="checkbox" id=${"chk-"+c.id} checked=${!!checks[c.id]} onChange=${e => setChecks({ ...checks, [c.id]: e.target.checked })}/>
+          <label for=${"chk-"+c.id}>${c.t}<small>${c.s ? c.s + " · " : ""}${T(c.ref)}</small></label>
+        </div>`)}
+      </div>
+    </details>
+
+    <section>
+      <div class="sec-head"><h2 class="sec">Session plan</h2><span>Whole · part · whole</span></div>
+      <div class="tl">
+        ${blocks.map((b, i) => {
+          const state = !started ? "" : i < cur || elapsed >= total ? "past" : i === cur ? "live" : "";
+          return html`<div class=${"blk k-" + b.kind + " " + state} key=${b.id}>
+            <div class="t">${hm(starts[i])}</div>
+            <div class="body">
+              <details class="blk-card fold" open=${i === 3}>
+                <summary>
+                  <div style=${{ minWidth:0 }}>
+                    <div class="blk-title">${b.title}</div>
+                    <div class="blk-sub"><span class="kind">${KIND[b.kind]}</span><span class="dur">${b.min} min</span>${state === "live" && html`<span class="livetag">NOW</span>`}${b.drills.length > 0 && html`<span class="dur">· Drill ${b.drills.join(", ")}</span>`}</div>
+                  </div><${Chev}/>
+                </summary>
+                <div class="blk-in">
+                  <ul class="cues">${b.coach.map((c, j) => html`<li key=${j}>${c}</li>`)}</ul>
+                  ${b.anim && html`<${ActionPlayer} spec=${ANIMS[b.anim]}/>`}
+                  ${b.rotation && html`<div><div class="lbl">Rotation</div><div style=${{ overflowX:"auto" }}><table class="rot">
+                    <thead><tr><th></th><th>Grip & Mirror</th><th>Drop-Ball</th><th>Tee</th></tr></thead>
+                    <tbody>${[["0:32","A","B","C"],["0:40","C","A","B"],["0:48","B","C","A"]].map(r => html`<tr key=${r[0]}><td class="mono">${r[0]}</td><td>Group ${r[1]}</td><td>Group ${r[2]}</td><td>Group ${r[3]}</td></tr>`)}</tbody>
+                  </table></div></div>`}
+                  ${b.step && html`<div class="muted">${b.step}</div>`}
+                  ${b.ask && html`<div><div class="lbl">Ask, don't tell</div><div class="ask">“${b.ask}”</div></div>`}
+                  ${b.drills.map(n => html`<${DrillCard} n=${n} key=${n}/>`)}
+                  <${Refs} ids=${b.refs} T=${T}/>
+                </div>
+              </details>
+            </div>
+          </div>`;
+        })}
+      </div>
+    </section>
+
+    <section class="card pad">
+      <div class="sec-head"><h2 class="sec">Squad & baseline</h2><span class="example">Example squad</span></div>
+      <p class="note" style=${{ margin:"0 0 10px" }}>${present}/16 present. Tap a letter to rate during the session: blank → Emerging → Developing → Secure. ${T("ch20-t2")}.</p>
+      <div class="rate-heads"><span></span><span>Player</span><span class="rates">${DAY1.baseline.map(b => html`<span key=${b[0]} title=${b[1]}>${b[0]}</span>`)}</span></div>
+      <div class="roster">
+        ${DAY1.roster.map((name, i) => {
+          const r = rates[i] || [0,0,0,0];
+          return html`<div class="pl" key=${name}>
+            <button class="att" aria-pressed=${att[i] ? "true" : "false"} aria-label=${"Mark " + name + (att[i] ? " absent" : " present")} onClick=${() => setAtt(att.map((a, j) => j === i ? !a : a))}>
+              ${att[i] && html`<svg width="14" height="14" viewBox="0 0 14 14"><path d="M3 7.5 6 10l5-6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>`}
+            </button>
+            <div class="pl-name" style=${{ opacity: att[i] ? 1 : .45 }}>${name}${i === 0 ? html`<small>Group A · student view</small>` : html`<small>Group ${"ABC"[i % 3]}</small>`}</div>
+            <div class="rates">${DAY1.baseline.map((b, j) => html`<button key=${b[0]} class=${"rate r" + r[j]} disabled=${!att[i]} aria-label=${b[1] + " for " + name}
+              onClick=${() => { const nr = [...r]; nr[j] = (nr[j] + 1) % 4; setRates({ ...rates, [i]: nr }); }}>${["·","E","D","S"][r[j]]}</button>`)}</div>
+          </div>`;
+        })}
+      </div>
+      <div class="legend" style=${{ marginTop:10 }}>${DAY1.baseline.map(b => html`<span key=${b[0]}><b class="mono">${b[0]}</b> ${b[1]}</span>`)}</div>
+    </section>
+
+    <section class="card pad">
+      <div class="sec-head"><h2 class="sec">After the session</h2><span>${T("ch1-t5")}</span></div>
+      <label for="coach-note" class="note" style=${{ display:"block", marginBottom:8 }}>What worked? Who needs a different cue on Day 2? What will you change?</label>
+      <textarea id="coach-note" value=${note} onChange=${e => setNote(e.target.value)} placeholder="Grip station ran long; Diya and Kabir need the cone tee again on Wednesday…"></textarea>
+    </section>
+  </div>`;
+}
+
+/* ---------- student ---------- */
+const CheckSvg = () => html`<svg width="15" height="15" viewBox="0 0 14 14" aria-hidden="true"><path d="M3 7.5 6 10l5-6" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>`;
+
+function ClipSheet({ id, onClose, st }){
+  useEffect(() => { const k = e => { if (e.key === "Escape") onClose(); }; addEventListener("keydown", k); return () => removeEventListener("keydown", k); }, []);
+  const spec = ANIMS[id];
+  return html`<div class="sheet-wrap" onClick=${onClose}>
+    <div class="sheet" role="dialog" aria-modal="true" aria-label=${spec.title} onClick=${e => e.stopPropagation()}>
+      <div class="grab"></div>
+      <div class="sheet-head"><div><div class="eyebrow">Technique clip</div><h2 class="sec">${spec.title}</h2></div><button class="btn line small" onClick=${onClose}>Close</button></div>
+      <${ActionPlayer} spec=${spec} onWatched=${st.watch}/>
+      <p class="note" style=${{ margin:0 }}>${st.watched[id] ? "Watched: +10 XP banked. Tap a bar to jump to a step, or try Slow-mo." : "Watch one full loop to earn +10 XP."}</p>
+    </div>
+  </div>`;
+}
+
+function XPCard({ st }){
+  return html`<section class="xp">
+    <div class="lvl">
+      <${LevelBadge} n=${st.level}/>
+      <div style=${{ flex:1, minWidth:0 }}><span>Level ${st.level}</span><b>${st.levelName}</b></div>
+      <div class="mono" style=${{ fontSize:22, fontWeight:500 }}>${st.xp}<span style=${{ fontSize:12, color:"var(--ink-faint)" }}> XP</span></div>
+    </div>
+    <div class="xpbar" role="progressbar" aria-label="Progress to next level" aria-valuemin="0" aria-valuemax="100" aria-valuenow=${Math.round(st.pct)}><i style=${{ width: st.pct + "%" }}></i></div>
+    <div class="xp-foot"><span>${st.nextName ? st.toNext + " XP to " + st.nextName : "Top level reached"}</span><span class="mono">${st.xp}/${(LEVELS[st.level] || LEVELS[st.level - 1])[0]}</span></div>
+    <div class="stats">
+      <div class="stat"><b>${st.streak}</b><span>Session streak</span></div>
+      <div class="stat"><b>${st.badges.filter(b => b.on).length}/${st.badges.length}</b><span>Badges</span></div>
+      <div class="stat"><b>${count(st.done)}/8</b><span>Blocks done</span></div>
+    </div>
+  </section>`;
+}
+
+function StudentToday({ st, openClip, T }){
+  const starts = []; DAY1.blocks.reduce((a, b) => (starts.push(a), a + b.min), 0);
+  const watchBtn = id => html`<button key=${id} class=${"watch" + (st.watched[id] ? " seen" : "")} onClick=${() => openClip(id)}><${PlayGlyph}/>${ANIMS[id].title}</button>`;
+  const setScore = (id, v) => st.setScores(s => ({ ...s, [id]: v }));
+
+  return html`<div class="screen">
+    <section class="kid-hero">
+      <${Ball} size=${130} cls="ball"/>
+      <div class="eyebrow">Hi Aarav · Week 1 · Day 1</div>
+      <h1>Grip it right. Stand still. Catch it soft.</h1>
+      <div class="prog"><span class="mono">Day 1/24</span><span class="track"><i style=${{ width: (count(st.done) / 8 / 24 * 100 + 1) + "%" }}></i></span><span>8 weeks</span></div>
+      <div class="meta"><span class="pill" style=${{ background:"rgba(255,255,255,.12)", color:"var(--turf-ink)" }}>Today 4:00–5:30 pm</span><span class="pill" style=${{ background:"rgba(255,255,255,.12)", color:"var(--turf-ink)" }}>Group A</span></div>
+    </section>
+
+    <${XPCard} st=${st}/>
+
+    <section class="card pad">
+      <div class="sec-head"><h2 class="sec">Today's quests</h2><span>${st.quests.filter(q => q.on).length}/${st.quests.length} complete</span></div>
+      ${st.quests.map(q => html`<div class=${"quest" + (q.on ? " done" : "")} key=${q.id}>
+        <div><b>${q.t}</b><br/><small>${q.on ? "Complete" : q.v + " / " + q.max}</small></div>
+        <span class="rw">+${q.xp} XP</span>
+        <div class="qbar"><i style=${{ width: q.v / q.max * 100 + "%" }}></i></div>
+      </div>`)}
+    </section>
+
+    <section class="card pad">
+      <div class="sec-head"><h2 class="sec">Pack your kit</h2><span>+5 XP each</span></div>
+      ${DAY1.kit.map((k, i) => html`<div class="check" key=${k}>
+        <input type="checkbox" id=${"kit-" + i} checked=${!!st.kit[i]} onChange=${e => st.setKit(st.kit.map((v, j) => j === i ? e.target.checked : v))}/>
+        <label for=${"kit-" + i}>${k}</label></div>`)}
+    </section>
+
+    <section>
+      <div class="sec-head"><h2 class="sec">Remember these</h2><span>Swipe · tap to watch</span></div>
+      <div class="cuecards">${DAY1.cues.map(c => html`<div class=${"cue k-" + c.k} key=${c.q}>
+        <span class="eyebrow">${c.tag}</span><q>${c.q}</q><p>${c.p}</p>${watchBtn(c.clip)}
+      </div>`)}</div>
+    </section>
+
+    <section class="card pad">
+      <div class="sec-head"><h2 class="sec">Your session</h2><span>+15 XP per block</span></div>
+      ${DAY1.blocks.map((b, i) => html`<div class=${"kstep k-" + b.kind} key=${b.id}>
+        <div class="t">${hm(starts[i])}</div>
+        <div><b>${b.title.replace(/^(Whole|Part): /, "")}</b><span>${b.kid}</span>${b.clips && html`<div class="clips">${b.clips.map(watchBtn)}</div>`}</div>
+        <button class="tick" aria-pressed=${st.done[b.id] ? "true" : "false"} aria-label=${"Mark done: " + b.title} onClick=${() => st.setDone(d => ({ ...d, [b.id]: !d[b.id] }))}><${CheckSvg}/></button>
+      </div>`)}
+    </section>
+
+    <section class="card pad">
+      <div class="sec-head"><h2 class="sec">My scores</h2><span>+2 XP per point</span></div>
+      ${DAY1.scores.map(s => html`<div class="score" key=${s.id}>
+        <div><b>${s.t}</b><small>${s.sub}</small></div>
+        <div class="stepper">
+          <button aria-label=${"Decrease " + s.t} onClick=${() => setScore(s.id, Math.max(0, st.scores[s.id] - 1))}>−</button>
+          <output class="mono">${st.scores[s.id]}/${s.max}</output>
+          <button aria-label=${"Increase " + s.t} onClick=${() => setScore(s.id, Math.min(s.max, st.scores[s.id] + 1))}>+</button>
+        </div>
+      </div>`)}
+    </section>
+
+    <section class="card pad">
+      <h2 class="sec" style=${{ marginBottom:10 }}>How did today feel?</h2>
+      <div class="feel">${[[1, "Tricky"], [2, "Okay"], [3, "Loved it"]].map(([v, l]) => html`<button key=${v} aria-pressed=${st.feel === v ? "true" : "false"} onClick=${() => st.setFeel(v)}><${Face} mood=${v}/>${l}</button>`)}</div>
+      <label for="learned" class="lbl" style=${{ display:"block", marginTop:14 }}>One thing I learned</label>
+      <input id="learned" class="input" value=${st.learned} onChange=${e => st.setLearned(e.target.value)} placeholder="My bottom hand should be light"/>
+    </section>
+
+    <section class="card pad">
+      <div class="sec-head"><h2 class="sec">Home practice</h2><span>+30 XP each</span></div>
+      ${DAY1.home.map(h => html`<div class="check" key=${h.id}>
+        <input type="checkbox" id=${"home-" + h.id} checked=${!!st.home[h.id]} onChange=${e => st.setHome(x => ({ ...x, [h.id]: e.target.checked }))}/>
+        <label for=${"home-" + h.id}>${h.t}<small>${h.s}</small></label></div>`)}
+    </section>
+    <p class="note">Linked to ${T("ch9-t1")} · ${T("ch9-t2")} · ${T("ch12-t1")}</p>
+  </div>`;
+}
+
+/* ---------- student: journey map ---------- */
+function Journey({ st, goToday }){
+  const [sel, setSel] = useState(0);
+  const X = [60, 160, 260];
+  const nodes = [];
+  WEEKS.forEach((w, r) => w.days.forEach((d, c) => nodes.push({ i: r * 3 + c, w, c, x: r % 2 === 0 ? X[c] : X[2 - c], y: 50 + r * 92, title: d })));
+  let path = `M${nodes[0].x} ${nodes[0].y}`;
+  for (let i = 1; i < nodes.length; i++){
+    const a = nodes[i - 1], b = nodes[i];
+    if (a.y === b.y) path += ` L${b.x} ${b.y}`;
+    else { const out = a.x > 160 ? 48 : -48; path += ` C${a.x + out} ${a.y} ${b.x + out} ${b.y} ${b.x} ${b.y}`; }
+  }
+  const complete = count(st.done) >= 8;
+  const H = 50 + 7 * 92 + 44;
+  const glyph = ["M12 3v5 M10 8h4l-.5 12h-3z", "M12 6.5a5.5 5.5 0 1 0 .01 0 M9 8.5q3 3.5 0 7 M15 8.5q-3 3.5 0 7", "M8 5h8v4a4 4 0 0 1-8 0z M12 13v4 M9 19h6"];
+  const cur = nodes[sel];
+  const stateOf = n => n.i === 0 ? (complete ? "done" : "now") : n.i === 1 && complete ? "next" : "locked";
+
+  return html`<div class="screen">
+    <section class="hero">
+      <div class="eyebrow">Your journey · 24 sessions</div>
+      <h1>Bat & Field Foundations</h1>
+      <p class="note" style=${{ margin:0 }}>Clear each session to unlock the next. Flags mark a week's milestone; the trophy nodes are game days.</p>
+    </section>
+
+    <section class="card pad" style=${{ position:"sticky", top:"calc(env(safe-area-inset-top, 0px) + 66px)", zIndex:5, boxShadow:"var(--shadow)" }}>
+      <div class="eyebrow">Week ${cur.w.n} · Day ${cur.c + 1}${cur.c === 2 ? " · Game day" : ""}</div>
+      <h2 class="sec" style=${{ margin:"3px 0 6px" }}>${cur.title}</h2>
+      ${cur.i === 0
+        ? html`<div style=${{ display:"flex", gap:10, alignItems:"center", justifyContent:"space-between" }}><span class="note">${complete ? "Cleared! Every block ticked." : count(st.done) + "/8 blocks ticked today"}</span><button class="btn small" onClick=${goToday}>Open today</button></div>`
+        : html`<span class="note">${stateOf(cur) === "next" ? "Up next at your following session." : "Locked. Clear the sessions before it to unlock."} Milestone: ${cur.w.milestone}.</span>`}
+    </section>
+
+    <section class="card pad journey">
+      <svg viewBox=${`0 0 320 ${H}`} role="group" aria-label="Session map">
+        <path d=${path} fill="none" stroke="var(--border-strong)" stroke-width="5" stroke-dasharray="1 10" stroke-linecap="round"/>
+        ${complete && html`<path d=${`M${nodes[0].x} ${nodes[0].y} L${nodes[1].x} ${nodes[1].y}`} stroke="var(--gold)" stroke-width="5" stroke-linecap="round"/>`}
+        ${WEEKS.map((w, r) => html`<text key=${w.n} x="160" y=${50 + r * 92 - 30} text-anchor="middle" class="jlbl">Week ${w.n} · ${w.title}</text>`)}
+        ${WEEKS.map((w, r) => { const x = r % 2 === 0 ? 300 : 20, y = 50 + r * 92 + (r < 7 ? 46 : 0); const fx = r < 7 ? x : (r % 2 === 0 ? 296 : 24);
+          return html`<g key=${"f" + r} transform=${`translate(${fx - 9} ${(r < 7 ? y : 50 + r * 92) - 9})`}><circle cx="9" cy="9" r="10" fill="var(--gold-soft)" stroke="var(--gold)"/><path d="M6.5 4v10 M6.5 4.5h6l-1.6 2.3 1.6 2.3h-6" fill="none" stroke="var(--gold)" stroke-width="1.5" stroke-linejoin="round"/></g>`; })}
+        ${nodes.map(n => {
+          const s = stateOf(n);
+          const face = s === "now" ? "var(--red)" : s === "done" ? "var(--gold)" : s === "next" ? "var(--surface)" : "var(--surface-2)";
+          const ink = s === "now" || s === "done" ? "#fff" : s === "next" ? "var(--red)" : "var(--ink-faint)";
+          return html`<g key=${n.i} class="jnode" role="button" tabIndex="0" aria-label=${`Week ${n.w.n} day ${n.c + 1}: ${n.title} (${s})`}
+              onClick=${() => setSel(n.i)} onKeyDown=${e => { if (e.key === "Enter" || e.key === " "){ e.preventDefault(); setSel(n.i); } }}>
+            ${s === "now" && html`<circle class="pulse" cx=${n.x} cy=${n.y} r="21" fill="var(--red)"/>`}
+            <circle class="face" cx=${n.x} cy=${n.y} r="21" fill=${face} stroke=${sel === n.i ? "var(--ink)" : s === "next" ? "var(--red)" : "var(--border-strong)"} stroke-width=${sel === n.i ? 3 : 1.5}/>
+            <g transform=${`translate(${n.x - 12} ${n.y - 12})`}><path d=${glyph[n.c]} fill="none" stroke=${ink} stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></g>
+            ${s === "locked" && html`<g transform=${`translate(${n.x + 9} ${n.y + 8})`}><circle cx="5" cy="5" r="7.5" fill="var(--surface)" stroke="var(--border-strong)"/><rect x="2" y="4.5" width="6" height="4.5" rx="1" fill="var(--ink-faint)"/><path d="M3.3 4.5V3.4a1.7 1.7 0 0 1 3.4 0v1.1" fill="none" stroke="var(--ink-faint)" stroke-width="1.1"/></g>`}
+            ${s === "done" && html`<text x=${n.x} y=${n.y + 36} text-anchor="middle" class="jlbl" style=${{ fill:"var(--gold)" }}>CLEARED</text>`}
+          </g>`;
+        })}
+      </svg>
+    </section>
+  </div>`;
+}
+
+/* ---------- student: trophies ---------- */
+function Trophies({ st }){
+  const [clip, setClip] = useState(() => CLIP_LIST.find(c => !st.watched[c]) || "grip");
+  const board = [["Kabir N.", 142, "var(--blue)"], ["Zoya F.", 118, "var(--gold)"], ["Reyansh B.", 96, "var(--green)"], ["Aarav S.", st.xp, "var(--red)", true], ["Dev A.", 74, "var(--ink-soft)"], ["Riya T.", 40, "var(--red-ink)"]];
+  const ranked = [...board].sort((a, b) => b[1] - a[1]).map(r => r[0]);
+  return html`<div class="screen">
+    <${XPCard} st=${st}/>
+
+    <section>
+      <div class="sec-head"><h2 class="sec">Watch & learn</h2><span>${count(st.watched)}/${CLIP_LIST.length} watched · +10 XP each</span></div>
+      <div class="chips" style=${{ marginBottom:10 }}>${CLIP_LIST.map(id => html`<button key=${id} class="chip" aria-pressed=${clip === id ? "true" : "false"} onClick=${() => setClip(id)}>${st.watched[id] && html`<span class="dotc" aria-label="watched"></span>`}${ANIMS[id].title}</button>`)}</div>
+      <${ActionPlayer} spec=${ANIMS[clip]} onWatched=${st.watch}/>
+    </section>
+
+    <section>
+      <div class="sec-head"><h2 class="sec">Badges</h2><span>+25 XP each</span></div>
+      <div class="shelf">${st.badges.map(b => html`<div key=${b.id} class=${"bdg " + (b.on ? "on" : "off")}><${Medal} glyph=${b.glyph} on=${b.on}/><b>${b.name}</b><span>${b.on ? "Unlocked" : b.how}</span></div>`)}</div>
+    </section>
+
+    <section class="card pad">
+      <div class="sec-head"><h2 class="sec">Group A this week</h2><span class="example">Example squad</span></div>
+      <div class="lb" style=${{ height: board.length * 48 }}>
+        ${board.map(([name, xp, color, me]) => { const rk = ranked.indexOf(name);
+          return html`<div key=${name} class=${"lb-row" + (me ? " me" : "")} style=${{ top: rk * 48 }}>
+            <span class="rk">${rk + 1}</span>
+            <span class="av" style=${{ background: color }}>${name.split(" ").map(p => p[0]).join("")}</span>
+            <span class="nm">${me ? "You" : name}</span>
+            <span class="mono" style=${{ fontSize:13 }}>${xp} XP</span>
+          </div>`; })}
+      </div>
+    </section>
+  </div>`;
+}
+
+/* ---------- program ---------- */
+function Program({ T, goToday, role }){
+  let w = 0;
+  const cells = PROGRAM.phases.flatMap(p => Array.from({ length: p.weeks }, () => html`<i key=${w++} class=${p.cls}></i>`));
+  return html`<div class="screen">
+    <section class="hero">
+      <div class="eyebrow">${PROGRAM.block}</div>
+      <h1>${PROGRAM.name}</h1>
+      <div class="meta"><span class="pill">${PROGRAM.squad}</span><span class="pill">${PROGRAM.rhythm}</span><span class="pill">Batting + Fielding</span></div>
+      <div>
+        <div class="lbl">6-month plan · 26 weeks</div>
+        <div class="road" aria-label="26-week plan; weeks 1 to 8 are this block">${cells}</div>
+        <div class="months">${["Oct","Nov","Dec","Jan","Feb","Mar"].map(m => html`<span key=${m}>${m}</span>`)}</div>
+        <div class="road-lbl" style=${{ gridTemplateColumns:"1fr 1fr" }}>${PROGRAM.phases.map(p => html`<div class="phase" key=${p.title}><b><span class="sw" style=${{ background:p.sw }}></span>${p.title}</b><span class="faint">${p.sub}</span></div>`)}</div>
+      </div>
+      <p class="note" style=${{ margin:0 }}>Built from ${T("ch18-t1")} and ${T("ch18-t2")}. Each week: Day 1 batting-led, Day 2 fielding-led, Day 3 game day.</p>
+    </section>
+
+    ${WEEKS.map(wk => html`<details class=${"wk fold" + (wk.n === 1 ? " cur" : "")} key=${wk.n} open=${wk.n === 1}>
+      <summary>
+        <div>
+          <div class="wk-no">WEEK ${wk.n}${wk.n === 1 ? " · THIS WEEK" : ""}</div>
+          <div class="wk-title">${wk.title}</div>
+          <div class="load">${[1,2,3,4,5].map(i => html`<i key=${i} class=${i <= wk.load ? "on" : ""}></i>`)}<span style=${{ marginLeft:4 }}>load</span></div>
+        </div><${Chev}/>
+      </summary>
+      <div class="wk-in">
+        <div class="two">
+          ${[["bat","Batting",wk.bat],["field","Fielding",wk.field]].map(([k, label, s]) => html`<div class=${"strand k-" + k} key=${k}>
+            <div class="lbl">${label}</div>
+            <ul>${s.topics.map(id => html`<li key=${id}>${T(id)}</li>`)}</ul>
+            <div class="dr">Drills: ${s.drills.map(n => DRILL_NAMES[n] + " (" + n + ")").join(" · ")}</div>
+          </div>`)}
+        </div>
+        ${wk.also && html`<div class="ref">Also this week: ${wk.also.map(T).join(" · ")}</div>`}
+        <div class="days">${wk.days.map((d, i) => {
+          const live = wk.n === 1 && i === 0;
+          return html`<button class=${"day" + (live ? " go" : "")} key=${i} onClick=${live ? goToday : undefined} disabled=${!live} style=${{ cursor: live ? "pointer" : "default" }}>
+            <span><b>D${i+1}</b>${d}</span>${live ? html`<span>${role === "coach" ? "Open plan" : "Open"} →</span>` : html`<span class="faint" style=${{ fontSize:12 }}>Preview</span>`}
+          </button>`;
+        })}</div>
+        <div class="mile"><svg width="14" height="14" viewBox="0 0 14 14"><path d="M3 1v12M3 2h8l-2 3 2 3H3" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/></svg>${wk.milestone}</div>
+      </div>
+    </details>`)}
+  </div>`;
+}
+
+/* ---------- syllabus (straight from the JSON) ---------- */
+function Syllabus({ data, byId }){
+  const usage = useMemo(() => {
+    const u = {};
+    const add = (id, n) => { (u[id] = u[id] || new Set()).add(n); };
+    WEEKS.forEach(w => { [...w.bat.topics, ...w.field.topics, ...(w.also || [])].forEach(id => add(id, w.n)); });
+    DAY1.blocks.forEach(b => (b.refs || []).forEach(id => add(id, 1)));
+    DAY1.checklist.forEach(c => add(c.ref, 1));
+    return u;
+  }, []);
+  const cov = ch => { const t = byId[ch].topics; return [t.filter(x => usage[x.id]).length, t.length]; };
+  const [bu, bt] = cov("ch9"), [fu, ft] = cov("ch12");
+  const kindOf = ch => ch.discipline === "batting" ? "bat" : ch.discipline === "fielding" ? "field" : "admin";
+
+  return html`<div class="screen">
+    <section>
+      <div class="sec-head"><h2 class="sec">${data.meta.title}</h2></div>
+      <p class="note" style=${{ margin:"-4px 0 12px" }}>Loaded live from <span class="mono">Cricket-Coaching-Syllabus.json</span> · v${data.meta.version} · ${data.meta.alignment}</p>
+      <div class="cov">
+        <div class="card k-bat"><div class="lbl">Batting topics</div><div class="big">${bu}<small>/${bt}</small></div><div class="meter"><i style=${{ width: bu/bt*100+"%" }}></i></div></div>
+        <div class="card k-field"><div class="lbl">Fielding topics</div><div class="big">${fu}<small>/${ft}</small></div><div class="meter"><i style=${{ width: fu/ft*100+"%" }}></i></div></div>
+      </div>
+    </section>
+    ${data.root.children.map(part => {
+      const chapters = (part.children || []).filter(c => c.topics);
+      const used = chapters.reduce((a, c) => a + c.topics.filter(t => usage[t.id]).length, 0);
+      const cats = (part.children || []).filter(c => c.type === "drillCategory");
+      return html`<details class="part fold" key=${part.id} open=${part.id === "p3"}>
+        <summary><div><div class="eyebrow">${part.id.toUpperCase()}${part.totalDrills ? " · " + part.totalDrills + " drills" : ""}</div><div class="wk-title">${part.title}</div>${chapters.length > 0 && html`<div class="ref">${used} topic${used === 1 ? "" : "s"} used in this block</div>`}</div><${Chev}/></summary>
+        <div class="part-in">
+          ${chapters.map(ch => html`<div key=${ch.id} class=${"k-" + kindOf(ch)}>
+            <div class="chap-t">${ch.title}<span class="mono">${ch.id}</span></div>
+            <ul class="topics">${ch.topics.map(t => html`<li key=${t.id} class=${usage[t.id] ? "used" : ""}>
+              <span>${t.title}</span>${usage[t.id] && html`<span class="wkchips">${[...usage[t.id]].sort((a,b)=>a-b).map(n => html`<span key=${n}>W${n}</span>`)}</span>`}
+            </li>`)}</ul>
+          </div>`)}
+          ${cats.length > 0 && html`<ul class="topics">${cats.map(c => html`<li key=${c.id} class=${["batting","fielding","running","warm-up"].includes(c.discipline) ? "used k-field" : ""}><span>${c.title}</span><span class="mono faint" style=${{ fontSize:11.5 }}>#${c.drillNumbers}</span></li>`)}</ul>`}
+        </div>
+      </details>`;
+    })}
+  </div>`;
+}
+
+/* ---------- app ---------- */
+function App(){
+  const [data, setData] = useState(null);
+  const [err, setErr] = useState(null);
+  const [role, setRole] = useStored("role", "coach");
+  const [tab, setTab] = useStored("tab", "today");
+  const st = useStudent();
+  const [clip, setClip] = useState(null);
+  const [toasts, setToasts] = useState([]);
+  const [lvlUp, setLvlUp] = useState(null);
+  const prev = useRef(null);
+
+  useEffect(() => {
+    fetch(SYLLABUS_URL).then(r => { if (!r.ok) throw new Error(r.status); return r.json(); }).then(setData).catch(e => setErr(String(e)));
+  }, []);
+  const byId = useMemo(() => data ? indexSyllabus(data) : {}, [data]);
+  const T = id => (byId[id] && byId[id].title) || id;
+  useEffect(() => { window.scrollTo(0, 0); }, [tab, role]);
+
+  /* XP pops, badge unlocks and level-ups */
+  useEffect(() => {
+    const cur = { xp: st.xp, level: st.level, badges: st.badges.filter(b => b.on).map(b => b.id) };
+    const p = prev.current; prev.current = cur;
+    if (!p) return;
+    const add = [];
+    if (cur.xp > p.xp) add.push({ id: Math.random(), kind: "xp", text: "+" + (cur.xp - p.xp) });
+    cur.badges.filter(b => !p.badges.includes(b)).forEach(b => add.push({ id: Math.random(), kind: "badge", text: BADGES.find(x => x.id === b).name }));
+    if (add.length){
+      setToasts(ts => [...ts, ...add]);
+      add.forEach(a => setTimeout(() => setToasts(ts => ts.filter(x => x.id !== a.id)), a.kind === "badge" ? 2900 : 1800));
+    }
+    if (cur.level > p.level) setLvlUp(cur.level);
+  }, [st.xp]);
+
+  const t = role === "coach" ? (tab === "trophies" ? "today" : tab) : (tab === "syllabus" ? "today" : tab);
+  let body;
+  if (err) body = html`<div class="state">Couldn't load <code>Cricket-Coaching-Syllabus.json</code> (${err}).<br/><br/>Serve this folder over HTTP, for example <code>python -m http.server</code>, and open the page from there. Browsers block file:// fetches.</div>`;
+  else if (!data) body = html`<div class="state">Loading the syllabus…</div>`;
+  else if (role === "coach") body = t === "program" ? html`<${Program} T=${T} role=${role} goToday=${() => setTab("today")}/>`
+    : t === "syllabus" ? html`<${Syllabus} data=${data} byId=${byId}/>` : html`<${CoachToday} T=${T}/>`;
+  else body = t === "program" ? html`<${Journey} st=${st} goToday=${() => setTab("today")}/>`
+    : t === "trophies" ? html`<${Trophies} st=${st}/>` : html`<${StudentToday} st=${st} T=${T} openClip=${setClip}/>`;
+
+  const tabs = role === "coach"
+    ? [["today", "Session", "today"], ["program", "8 weeks", "program"], ["syllabus", "Syllabus", "syllabus"]]
+    : [["today", "Today", "today"], ["program", "Journey", "journey"], ["trophies", "Trophies", "trophies"]];
+  return html`<div class="app">
+    <header class="top">
+      <div class="top-row">
+        <div class="brand"><${Ball}/><div><b>InstilPlay</b><small>${role === "coach" ? "Coach · Coach Rao" : `Student · Aarav S. · Lv ${st.level} · ${st.xp} XP`}</small></div></div>
+        <div class="seg" role="group" aria-label="View as">
+          ${[["coach","Coach"],["student","Student"]].map(([k, l]) => html`<button key=${k} aria-pressed=${role === k ? "true" : "false"} onClick=${() => setRole(k)}>${l}</button>`)}
+        </div>
+      </div>
+    </header>
+    <main>${body}</main>
+    <nav class="nav" aria-label="Sections">
+      ${tabs.map(([k, l, ic]) => html`<button key=${k} aria-current=${t === k ? "page" : undefined} onClick=${() => setTab(k)}><${NavIcon} name=${ic}/>${l}</button>`)}
+    </nav>
+    <div class="toasts" aria-live="polite">${toasts.map(x => html`<div key=${x.id} class=${"toast" + (x.kind === "badge" ? " bt" : "")}>${x.kind === "xp" ? html`<b>${x.text}</b> XP` : html`Badge unlocked: ${x.text}`}</div>`)}</div>
+    ${clip && html`<${ClipSheet} id=${clip} st=${st} onClose=${() => setClip(null)}/>`}
+    ${lvlUp && html`<div class="overlay" onClick=${() => setLvlUp(null)}>
+      <div class="lvlup" role="dialog" aria-modal="true" aria-label="Level up" onClick=${e => e.stopPropagation()}>
+        <div class="confetti" aria-hidden="true">${Array.from({ length: 28 }, (_, i) => html`<i key=${i} style=${{ left: (i * 37 % 100) + "%", background: ["var(--red)","var(--gold)","var(--green)","var(--blue)"][i % 4], animationDelay: (i % 7) * .08 + "s" }}></i>`)}</div>
+        <${LevelBadge} n=${lvlUp}/>
+        <div class="eyebrow">Level up</div>
+        <h3>${LEVELS[lvlUp - 1][1]}</h3>
+        <p>You reached Level ${lvlUp}. Keep clearing blocks and quests.</p>
+        <button class="btn" onClick=${() => setLvlUp(null)}>Keep going</button>
+      </div>
+    </div>`}
+  </div>`;
+}
+
+ReactDOM.createRoot(document.getElementById("root")).render(html`<${App}/>`);
+</script>
